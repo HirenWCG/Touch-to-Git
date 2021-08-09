@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style type="text/css">
+		body{
+			background-color: #964B00;
+			color: white;
+			width: 80vh;
+		}
+		.cl{
+			background-color: #800000;
+			padding: 5px 5px 5px 5px;
+			color: white;
+		}
+		.hi{	
+ 			border-color: #654321;
+		}
+		.ce{
+			text-align: right;
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+		.pad{
+			margin-bottom: 30px;
+		}
+		.button{
+			margin-top: 10px;
+			margin-left: 35vh;
+			background-color: #7fff00;
+		}
+	</style>
+</head>
+<body>
+	<fieldset class="hi">
+      <legend><p class="cl">Personal Information</p></legend>
+      <table align="center">
+        <tr>
+          <td class="ce"><label >Sex:</label></td>
+          <td>
+            <input type="radio" name="Male" />Male
+            <input type="radio" name="Male" />Female
+          </td>
+        </tr>
+        <tr>
+          <td class="ce"><label >Birthday:</label></td>
+          <td>
+            <select>
+              <option>Months</option>
+            </select>
+            <select>
+              <option>Date:</option>
+            </select>
+            <select>
+              <option>1975</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="ce">
+            <label >State:</label>
+          </td>
+          <td>
+            <select>
+              <option>Ohio</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="ce"><label>Country:</label></td>
+          <td><select>
+          		<option>United States</option>
+          	  </select>
+          </td>
+        </tr>
+      </table>
+    </fieldset>
+
+
+
+	<fieldset class="hi">
+		<legend><p class="cl">Site Registration</p></legend>
+		<table align="center">
+			<tr>
+				<td class="ce"><label>Username:</label></td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td class="ce"><label>Password:</label></td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td class="ce"><label>Retype Password:</label></td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td class="ce"><label>Email Address:</label></td>
+				<td><input type="text" name=""></td>
+			</tr>
+			<tr>
+				<td class="ce"><label>Retype Email Address:</label></td>
+				<td><input type="text" name=""></td>
+			</tr>
+		</table>
+	</fieldset>
+
+	<button class="button" type="button">Submit</button>
+</body>
+</html>

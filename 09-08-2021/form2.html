@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+
+    body{
+      background-color: rgb(243, 172, 145)
+    }
+      .btn1 {
+        background-color: blue;
+         font-size: 20px;
+        color: white;
+        font-weight: bold;
+        padding: 5px 13px;
+        border-color: white;
+        border-radius: 32px;
+      }
+
+      .btn2 {
+        border-radius: 32px;
+        background-color: white;
+        border-color: blue;
+        font-size: 20px;
+        color: black;
+        padding: 5px 9px;
+      }
+      .btn3 {
+        border-style: outset;
+         padding: 7px 17px;
+        border-radius: 32px;
+        background-color: rgb(201, 224, 233);
+        color: black;
+        font-weight: bold;
+      }
+      .pg1{
+        margin-left: 200px
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>
+      <b><i>KM Custom HTML Form Example Using AppleScript</i></b>
+    </h2>
+    <h2 class="pg1">(by JMichaelTX)</h2>
+    <table border="1" cellspacing="0">
+      <tr>
+        <td><b>Name:</b></td>
+        <td><input type="text" /></td>
+      </tr>
+      <tr>
+        <td><b>Email:</b></td>
+        <td><input type="email" /></td>
+      </tr>
+      <tr>
+        <td><b>Password:</b></td>
+        <td><input type="password" /></td>
+      </tr>
+      <tr>
+        <td>
+          <p><b>Approval Required:</b></p>
+          <p>click on the button or text to<br>check/uncheck.</p>
+        </td>
+        <td><input type="checkbox" /> Do you approve?</td>
+      </tr>
+      <tr></tr>
+      <tr>
+        <td>
+          <p><b>Pic Your Favorite:</b></p>
+          <p>click on the button or text to <br>select.</p>
+        </td>
+        <td>
+          <input type="radio" value="choice" /> Choice A <br>
+          <input type="radio" value="choice" /> Choice B <br>
+          <input type="radio" value="choice" /> Choice C <br>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Popup Menu:</b></td>
+        <td>
+          <select>
+            <option value="Texas --Tx">Texas --Tx</option>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <b>List</b>
+          <p>Setup Options:</p>
+          <ul>
+            <li>Number of rows to display</li>
+            <li>Allow Multi-select</li>
+          </ul>
+        </td>
+        <td>
+          <select multiple size="5">
+            <option value="">California -- CA</option>
+            <option value="">Colorado -- CO</option>
+            <option value="">Connecticut -- CN</option>
+            <option value="">Dalifornia -- DA</option>
+            <option value="">Dolorado -- DO</option>
+            <option value="">Dolorado -- DO</option>
+            <option value="">Dolorado -- DO</option>
+            <option value="">Dolorado -- DO</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Field Ignored By KM</b></td>
+        <td>
+          <input type="text" value="10,384" />
+        </td>
+      </tr>
+      <tr>
+        <td><b>Text Area</b></td>
+        <td><textarea cols="40" rows="5"></textarea></td>
+      </tr>
+    </table>
+    <br>
+    <button class="btn1">save</button>
+    <button class="btn2">cancel</button>
+    <button class="btn3">Resize</button>
+  </body>
+</html>

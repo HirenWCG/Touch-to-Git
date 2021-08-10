@@ -1,0 +1,108 @@
+form {
+	
+	margin-left: 400px;
+	margin-right: 405px;
+	
+}
+
+form input{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+}
+.color1{
+	background-color: #C3BA85;
+}
+.a1{
+	background-color: #F0F0CB;
+}
+
+.f1{
+	margin-left: 20px;
+	padding-right: 150px;
+}
+
+.f2{
+	margin-left: 20px;
+	padding-right: 507px;
+}
+
+.f5{
+	background-color: white;
+  	color: black;
+  	border: 2px solid #4CAF50;
+	border-radius: 4px;
+	padding-left: 30px;
+	padding-right: 30px;
+	font-weight:700;
+	margin-top: 20px;
+}
+.f4{
+	margin-left: 20px;
+	padding-right: 30px;
+}
+
+
+.selectpicker{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-left: 20px;
+	padding-left: 10px;
+	padding-right: 136px;
+}
+
+.d1{
+	padding-bottom: 35px;
+}
+.selectpicker2{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-left: 20px;
+	padding-left: 10px;
+	padding-right: 80px;
+	margin-top: 5px;
+}
+.l2{
+	margin-left: 20px;
+	padding-right: 507px;
+	margin-top: 20px;
+}
+.f6{
+	margin-left: 20px;
+	padding-right: 30px;
+	margin-bottom: 20px;
+}
+.selectpicker3{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-left: 20px;
+	padding-left: 10px;
+	padding-right: 75px;
+	margin-top: 5px;
+}
+.m1{
+	margin-left: 20px;
+	background-color: white;
+  	color: black;
+  	border: 2px solid blue;
+	border-radius: 4px;
+	padding-right: 65px;
+}
+.selectpicker4{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-left: 20px;
+	padding-left: 10px;
+	padding-right: 90px;
+}
+.ff5{
+	background-color: white;
+  	color: black;
+  	border: 2px solid #4CAF50;
+	border-radius: 4px;
+	margin-left: 10px;
+	padding-left: 30px;
+	padding-right: 30px;
+	font-weight:700;
+	margin-top: 20px;
+}

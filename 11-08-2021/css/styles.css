@@ -17,12 +17,12 @@ body{
 	width: 50%;
 	float: right;
 	text-align: justify;
-	padding-top: 20px;
-	padding-bottom: 12vh;
 	color: white;
 	letter-spacing: 1px;
+	height: 70vh;
 }
 .round{
+	padding-top: 8vh;
 	height: 25vh;
 	width: 25vh;
   	border-top-left-radius: 50% 50%;
@@ -32,8 +32,7 @@ body{
 }
 .main2{
 	text-align: center;
-	margin-top: 8vh;
-	margin-bottom: 14VH;
+	height: 70vh;
 }
 #font{
 	font-family: 'Great Vibes', cursive;
@@ -56,6 +55,7 @@ body{
 	font-family: 'Great Vibes', cursive;
 	padding-left: 40px;
 	letter-spacing: 3px;
+	padding-top: 7vh;
 }
 .i1{
 	padding: 10px 10px 10px 10px;

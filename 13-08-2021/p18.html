@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h1>18.	Write a program to check whether character is alphabet or not.</h1>
+</head>
+<body>
+<script>
+var ch = prompt("Enter the character : ");
+    var ans;
+    var n = ch.charCodeAt(0);
+    if((n >= 65 && n < 91) || (n >= 97 && n < 123)){
+        ans = "alphabet";
+    } else {
+        ans = "not an alphabet";
+    }
+    document.write("<h3> " + ans + " </h3>");    
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h1>14. Take a number and check whether it is zero, positive or negative using nested IF…ELSE statement .</h1>
+</head>
+<body>
+<script>
+var number1 = Number(prompt('Enter First Number:'));
+var number2 = Number(prompt('Enter Second Number:'));
+var number3 = Number(prompt('Enter Third Number:'));
+if(number1>number2)
+    {
+        if(number1>number3)
+        {
+            result="number " + number1;
+        }
+        else{
+            result="number " + number3;
+        }
+    }
+    else{
+        if(number2>number3){
+            result="number " + number2;
+        }
+        else{
+            result="number " + number3;
+         }
+    }
+
+    document.write("<h3> " + result + " is greater </h3>");
+</script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<h1>9. Take a number and find factorial of that number.</h1>
+</head>
+<body>
+<script>
+const x = Number(prompt('Enter a Number:'));
+function fact(a) {
+        if(a == 1 || a== 0){
+            return 1;
+        }
+        else {
+            return a*fact(a-1);
+        }
+    }
+document.write(fact(x)); 
+</script>
+</body>
+</html>

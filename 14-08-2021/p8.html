@@ -1,0 +1,20 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script type="text/javascript">
+            function disp_time()
+                {
+                    var time=new Date();
+                    var h,m,s;
+                    h=time.getHours();
+                    m=time.getMinutes();
+                    s=time.getSeconds();
+                    document.write("<h1>"+h+":"+m+":"+s+"</h1>"+"<br>");
+                }
+
+            </script>
+        <body onLoad="disp_time()">
+    </body>
+</html> 

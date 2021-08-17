@@ -18,23 +18,18 @@ function validation(){
     
     if(pass1 == ""){
         document.getElementById("password12").innerHTML = "Enter Password!";
-    }else if(!pass1 == ""){
+    }else{
         document.getElementById("password12").innerHTML = "";
     }
     
     if(pass2 == ""){
         document.getElementById("password13").innerHTML = "Re-Enter Password!";
-    }else if(!pass2 == ""){
-        document.getElementById("password13").innerHTML = "";
+    }else if(pass1 != pass2){
+        document.getElementById("password13").innerHTML = "Password Not Match!";
+    }else{
+        document.getElementById("password13").innerHTML = "Password Match!";
     }
     
-    if(!pass2==""){
-        if(!pass1 == pass2){
-            document.getElementById("password13").innerHTML = "Password Not Match!";
-        }else{
-            document.getElementById("password13").innerHTML = "Password Match Successfully!";
-        }
-    }
   
 }
 

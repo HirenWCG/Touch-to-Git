@@ -5,15 +5,23 @@ function validation(){
     var pass1 = document.getElementById("password1").value;
     var pass2 = document.getElementById("password2").value;
     if(x == ""){
-        document.getElementById("v1").value = "First Name Required!";
+        document.getElementById("v6").innerHTML = "First Name Required!";
+    }else{
+        document.getElementById("v6").innerHTML = "";
     }
     
     if(y == ""){
-        document.getElementById("v2").value = "Second Name Required!";
+        document.getElementById("v5").innerHTML = "Second Name Required!";
+    }else{
+        document.getElementById("v5").innerHTML = "";
     }
     
-    if(!validateEmail(inputemail)){
-        document.getElementById("v3").value = "Enter Valid Email Address!";
+    if(inputemail == ""){
+        document.getElementById("v4").innerHTML = "Enter Email Address!";
+    }else if(!validateEmail(inputemail)){
+        document.getElementById("v4").innerHTML = "Enter Valid Email Address!";
+    }else{
+        document.getElementById("v4").innerHTML = "";
     }
     
     if(pass1 == ""){

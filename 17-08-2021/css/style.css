@@ -38,15 +38,16 @@ body{
     margin-top: 6vh;
 }
 #d1{
-    width: 50%;
     float: left;
     margin-top: 30px;
-    margin-left: 15px;
+    margin-left: 100px;
 }
-#d2{
-    width: 50%;
-    float: right;
+#d1:hover{
+    margin-left: 110px;
+    transition: 0.3s;
+    transform: scale(1.1);
 }
+
 #p{
     font-family: 'Pacifico', cursive;
     font-size: 50px;
@@ -63,22 +64,12 @@ body{
     color:black;
 }
 #a:hover{
+    transition: background-color 0.5s;
     color: white;
     background-color: #52734D;
 }
-.i12{
-    padding: 10px 110px 10px 10px;
+.s1{
+    margin-left: 100px;
     font-size: 20px;
-    margin-top: 20px;
-    background-color: transparent;
-    border: none;
-    border: 2px solid #52734D;
-}
-.i12:hover{
-    padding: 10px 110px 10px 10px;
-    font-size: 20px;
-    margin-top: 20px;
-    background-color: transparent;
-    border: none;
-    border: 2px solid #52734D;
+    text-align: left;
 }

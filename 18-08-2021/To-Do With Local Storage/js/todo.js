@@ -6,6 +6,7 @@ function todo(){
         localStorage.setItem(x, JSON.stringify(array[x]));
         x++;
         document.getElementById("input").value="";
+        to1();
     }
 }
 
@@ -21,3 +22,11 @@ function to(){
         .appendChild(document.createElement("h3")).innerText = lastname;
     }
 }
+
+let i=0;
+function to1(){
+        var lastname = localStorage.getItem(i);
+        document.getElementById("list")
+        .appendChild(document.createElement("h3")).innerText = lastname;
+        i++;
+    }

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+    <style>
+        body{
+           margin-top: 90px; 
+           background-color: #0F044C;
+           
+        }
+        #dd1{
+            padding: 30px 30px 30px 30px;
+            width: 50%;
+            height: 520px;
+            border: 2px solid black;
+            margin: auto;
+            box-shadow: 25px 25px 30px black;
+            background-color: #EEEEEE;
+        }
+        .bt{
+            margin-right: 10px;
+            font-size: 30px;
+            padding: 20px 20px 20px 20px;
+            background-color: transparent;
+            border-radius: 10px;
+            border-color: #CD113B;
+            border-width: 4px;
+            outline: none;
+        }
+        .bt:hover{
+            background-color: #CD113B;
+            color: white;
+            transition: 0.5s;
+            transform: scale(1.1);
+            border:none;
+        }
+        #dd2{
+            text-align: center;
+        }
+        .dd3{
+            text-align: center;
+            height: 250px;
+            font-size: 300px;
+            text-shadow: 2px 2px 10px black;
+            margin-bottom: 110px;
+        }
+        #in{
+            font-size: 30px;
+            padding: 10px 10px 10px 10px;
+            margin-bottom: 20px;
+            background-color: transparent;
+            border-color: #CD113B;
+            border-width: 4px;
+            outline: none;
+        }
+        #dd4{
+            text-align: center;
+            margin-top: 20px;
+        }
+        span{
+            font-size: 30px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+   <div id="dd1">
+    <div id="dd2">
+        <input id="in" type="number" placeholder="Enter a Number"><br>
+        <span id="span1"></span>
+    </div>
+    <div class="dd3" id="div1"></div>
+    <div id="dd4"><button class="bt" id="btn1">Start</button><button class="bt" id="btn-stop">Stop</button><button class="bt" id="btn3">Restart</button></div>
+   </div>
+<script>
+var stop = 0;
+document.getElementById("btn3").addEventListener("click", ()=>{
+    stop = 0;
+});
+
+document.getElementById("btn-stop").addEventListener("click", ()=>{
+    stop = 1;
+});
+document.getElementById("btn1").addEventListener("click", ()=>{
+
+    var colour = document.getElementById("in").value;
+    if(colour != ""){
+        if(20>=colour){
+            var b = document.getElementById("div1").innerText=colour;
+            document.getElementById("btn1").disabled = true;
+            var z = setInterval(dc, 1000);
+            function dc(){
+                if(stop == 0){
+                    b =b-1;
+                    // console.log(b);
+                    document.getElementById("div1").innerText=b;
+                    if(b == 0){
+                        clearInterval(z);
+                        document.getElementById("btn1").disabled = false;
+                    }
+                }
+            }
+        }else{
+            alert("Please Enter 20 or Less then Value");
+        }
+    }else{
+        alert("First Enter the Value!");
+    }
+   
+});
+</script>
+</body>
+</html>

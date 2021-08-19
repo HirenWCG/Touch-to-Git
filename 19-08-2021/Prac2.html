@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+    <style>
+        div{
+            text-align: center;
+            margin: auto;
+            width: 50%;
+            height: 50%;
+            font-size: 50px;
+            border: 2px solid black;
+            padding: 100px 100px 100px 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">Hello</div>
+    <script>
+        var image = document.getElementById("div1");
+        image.addEventListener("click", ()=>{image.innerText="Hiren", image.style.color="Black"});
+        image.addEventListener("mouseout", ()=>{image.innerText="Hello, Where are you going :(", image.style.color="red"});
+    </script>
+</body>
+</html>

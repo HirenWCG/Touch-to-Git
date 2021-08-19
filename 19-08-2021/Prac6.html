@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+    <style>
+        #div1{
+            width: 80%;
+            height: 500px;
+            background-color: blueviolet;
+        }
+        #div2{
+            width: 50%;
+            height: 250px;
+            background-color: cadetblue;
+        }
+        #div3{
+            width: 50%;
+            height: 150px;
+            background-color: brown;
+        }
+    </style>
+</head>
+<body>
+    <div id="div1">
+        <div id="div2">
+            <div id="div3">
+                <p id="pid">HI<br>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti sequi doloribus asperiores explicabo dolor, ad aspernatur repellat odio, laborum possimus, eveniet earum? Voluptatem dolores voluptates voluptatibus pariatur tempore mollitia eligendi?</p>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById("div1").addEventListener("click", ()=>{
+            alert("div1 Clicked");
+        });
+        document.getElementById("div2").addEventListener("click", (e)=>{
+            alert("div2 Clicked");
+            e.stopPropagation();
+        });
+        document.getElementById("div3").addEventListener("click", ()=>{
+            alert("div3 Clicked");
+        });
+        document.getElementById("pid").addEventListener("click", ()=>{
+            alert("p tag Clicked");
+        });
+    </script>
+</body>
+</html>

@@ -28,13 +28,7 @@
             border-width: 4px;
             outline: none;
         }
-        .bt:hover{
-            background-color: #CD113B;
-            color: white;
-            transition: 0.5s;
-            transform: scale(1.1);
-            border:none;
-        }
+     
         #dd2{
             text-align: center;
         }
@@ -65,7 +59,7 @@
     </style>
 </head>
 
-<body>
+<body onload="load()">
    <div id="dd1">
     <div id="dd2">
         <input id="in" type="number" placeholder="Enter a Number"><br>
@@ -76,6 +70,10 @@
    </div>
 <script>
 var stop = 0;
+function load(){
+    document.getElementById("btn-stop").disabled = true;
+    document.getElementById("btn3").disabled = true;
+}
 document.getElementById("btn3").addEventListener("click", ()=>{
     stop = 0;
 });
@@ -90,6 +88,8 @@ document.getElementById("btn1").addEventListener("click", ()=>{
         if(20>=colour){
             var b = document.getElementById("div1").innerText=colour;
             document.getElementById("btn1").disabled = true;
+            document.getElementById("btn-stop").disabled = false;
+            document.getElementById("btn3").disabled = false;
             var z = setInterval(dc, 1000);
             function dc(){
                 if(stop == 0){
@@ -99,6 +99,8 @@ document.getElementById("btn1").addEventListener("click", ()=>{
                     if(b == 0){
                         clearInterval(z);
                         document.getElementById("btn1").disabled = false;
+                        document.getElementById("btn-stop").disabled = true;
+                        document.getElementById("btn3").disabled = true;
                     }
                 }
             }

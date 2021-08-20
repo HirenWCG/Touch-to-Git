@@ -1,0 +1,19 @@
+<html>
+  <head> </head>
+  <body>
+    <button>Click me</button><br />
+    <div
+      id="div1"
+      style="width: 90px; height: 90px; display: none; background-color: black"
+    ></div>
+    <br />
+    <script type="text/javascript" src="jQuery-min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("button").click(function () {
+          $("#div1").delay("slow").fadeIn();
+        });
+      });
+    </script>
+  </body>
+</html>

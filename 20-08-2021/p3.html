@@ -1,0 +1,21 @@
+<html>
+  <head> </head>
+  <body>
+    <p>This is first paragraph.</p>
+    <p>This is second paragraph.</p>
+    <p>This is third paragraph.</p>
+    <button id="hide">Hide</button>
+    <button id="show">Show</button>
+    <script type="text/javascript" src="jQuery-min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#hide").click(function () {
+          $("p").hide();
+        });
+        $("#show").click(function () {
+          $("p").show();
+        });
+      });
+    </script>
+  </body>
+</html>

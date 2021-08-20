@@ -1,0 +1,20 @@
+<html>
+  <head> </head>
+  <style>
+    p {
+      background: pink;
+      margin: 6px 0;
+    }
+  </style>
+  <body>
+    <p>Hover your mouse pointer on me!</p>
+    <script type="text/javascript" src="jQuery-min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("p").hover(function () {
+          $(this).css("background-color", "violet");
+        });
+      });
+    </script>
+  </body>
+</html>

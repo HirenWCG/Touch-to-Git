@@ -1,0 +1,21 @@
+<html>
+  <head> </head>
+  <style>
+    p {
+      background: pink;
+      margin: 6px 0;
+    }
+  </style>
+  <body>
+    <p>Hello Guys!</p>
+    This is jQuery Events...<br />
+    <p>A place for all technology.</p>
+    <button>Click Here to Remove</button>
+    <script type="text/javascript" src="jQuery-min.js"></script>
+    <script>
+      $("button").click(function () {
+        $("p").remove();
+      });
+    </script>
+  </body>
+</html>

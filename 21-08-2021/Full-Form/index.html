@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <link rel="stylesheet" href="css/screen.css" />
+  </head>
+  <body>
+    <div class="div1">
+      <form class="cmxform" id="commentForm" method="get" action="">
+        <table cellpadding="5px">
+          <tr>
+            <td class="a"><label for="cname">Name</label></td>
+            <td>
+              <input
+                id="cname"
+                name="name"
+                minlength="2"
+                type="text"
+                required
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td class="a">
+              <label for="field">Required, us phone number: </label>
+            </td>
+            <td>
+              <input class="left" id="field" name="field" required />
+            </td>
+          </tr>
+
+          <tr>
+            <td class="a">
+              <label for="field">Required, Images files only: </label>
+            </td>
+            <td>
+              <input type="file" class="left" id="field" name="field" />
+            </td>
+          </tr>
+        </table>
+        <div class="submit">
+          <button type="submit" value="Submit">Submit</button>
+        </div>
+      </form>
+    </div>
+    <script src="./js/main.js"></script>
+  </body>
+</html>

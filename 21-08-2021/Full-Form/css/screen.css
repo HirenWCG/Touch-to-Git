@@ -1,0 +1,27 @@
+.error {
+  color: red;
+}
+.a {
+  text-align: right;
+}
+.submit {
+  text-align: center;
+}
+body {
+  width: 60%;
+  margin: auto;
+  margin-top: 30px;
+  padding: 30px 0px 30px 0px;
+}
+table {
+  margin: auto;
+}
+button {
+  padding: 10px 10px 10px 10px;
+  font-size: 20px;
+}
+.div1 {
+  border: 3px solid black;
+  margin: 20px 0px 20px 0px;
+  padding: 10px 10px 10px 10px;
+}

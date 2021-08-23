@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Required, only audio files allowed:</title>
+  </head>
+  <body>
+    <form id="myform">
+      <label for="Contact">Required, us phone number: </label>
+      <input class="left" id="field" name="Contact" />
+      <br />
+      <br />
+
+      <label for="photo">Required, audio files only: </label>
+      <input type="file" class="left" id="field" name="photo" />
+      <br />
+
+      <input type="submit" value="Validate!" />
+    </form>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script>
+      // just for the demos, avoids form submit
+      $(document).ready(function () {
+        jQuery.validator.setDefaults({
+          debug: true,
+          success: "valid",
+        });
+        $("#myform").validate({
+          rules: {
+            Contact: {
+              required: true,
+              digits: true,
+              minlength: 10,
+              maxlength: 10,
+            },
+            photo: {
+              required: true,
+              accept: "image/*",
+            },
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

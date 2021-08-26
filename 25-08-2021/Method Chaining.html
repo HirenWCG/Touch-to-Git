@@ -1,0 +1,75 @@
+<html>
+  <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+  <body></body>
+  <script>
+    var obj = function () {
+      var i;
+      var calc = function (j) {
+        i = j;
+        return this;
+      };
+      var add = function (j) {
+        i = i + j;
+        return this;
+      };
+      var mult = function (j) {
+        i = i * j;
+        return this;
+      };
+      var div = function (j) {
+        i = i / j;
+        return this;
+      };
+      var sub = function (j) {
+        i = i - j;
+        return this;
+      };
+      var print = function () {
+        document.write(i);
+      };
+      return {
+        calc: calc,
+        add: add,
+        mult: mult,
+        div: div,
+        sub: sub,
+        print: print,
+      };
+    };
+
+    var x = obj();
+    // x.add(5);
+    // x.mult(2);
+    // x.div(3);
+    // x.sub(2);
+    // x.print();
+
+    x.calc(10).add(5).mult(2).div(3).sub(2).print();
+    console.log(typeof sub);
+
+    // class Cal1 {
+    //   constructor(initialValue) {
+    //     this.result = initialValue;
+    //     return this;
+    //   }
+    //   add(value) {
+    //     this.result = this.result + value;
+    //     return this;
+    //   }
+    //   sub(value) {
+    //     this.result = this.result - value;
+    //     return this;
+    //   }
+    //   mul(value) {
+    //     this.result = this.result * value;
+    //     return this;
+    //   }
+    //   div(value) {
+    //     this.result = this.result / value;
+    //     return this;
+    //   }
+    // }
+    // var obj = new Cal1(5).add(3).mul(2);
+    // console.log(obj.result);
+  </script>
+</html>

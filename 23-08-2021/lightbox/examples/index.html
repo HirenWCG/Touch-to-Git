@@ -5,9 +5,17 @@
     <title>Lightbox Example</title>
     <link rel="stylesheet" href="../dist/css/lightbox.min.css" />
   </head>
+  <style type="text/css">
+    body{
+      width: 70%;
+      margin: auto;
+      margin-top: 200px;
+    }
+  </style>
   <body>
     <section>
       <div>
+        <h1>This is my LightBox Demo</h1>
         <a
           class="example-image-link"
           href="http://lokeshdhakar.com/projects/lightbox2/images/image-3.jpg"
@@ -46,6 +54,16 @@
           ><img
             class="example-image"
             src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-6.jpg"
+            alt=""
+        /></a>
+        <a
+          class="example-image-link"
+          href="http://lokeshdhakar.com/projects/lightbox2/images/image-5.jpg"
+          data-lightbox="example-set"
+          data-title="The next image in the set is preloaded as you're viewing."
+          ><img
+            class="example-image"
+            src="http://lokeshdhakar.com/projects/lightbox2/images/thumb-5.jpg"
             alt=""
         /></a>
       </div>

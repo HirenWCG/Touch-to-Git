@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery .class Selector</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".param").css("color", "red");
+        $("h1").css("color", "blue");
+        $("#heading").css("color", "pink");
+        $(".param2, .hfirst").css("color", "green");
+      });
+    </script>
+  </head>
+  <body>
+    <p class="param">First paragraph start here...</p>
+    <p class="param">Second paragraph start here...</p>
+    <h1>Hello</h1>
+    <h2 id="heading">Article heading</h2>
+    <h2 class="param2">Hi</h2>
+    <h2 class="hfirst">Hello</h2>
+  </body>
+</html>

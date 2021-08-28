@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery [attribute~=value] Selector</title>
+    <script src="jquery-latest.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("p[class~='heading']").css("color", "red");
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Article heading</h1>
+    <p>first paragraph</p>
+    <p class="first-heading">second paragraph</p>
+    <p class="heading">third paragraph</p>
+    <p class="another-heading">fourth paragraph</p>
+  </body>
+</html>

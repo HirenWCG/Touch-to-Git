@@ -1,0 +1,144 @@
+body {
+  background-color: #d5eebb;
+}
+.container {
+  width: 80%;
+  /* margin: 25px auto; */
+}
+input {
+  outline: none;
+  border-color: #ff6b6b;
+}
+form {
+  width: 118%;
+  padding: 20px;
+  color: #fff;
+  border-radius: 4px;
+}
+label {
+  color: black;
+  font-size: 20px;
+  font-family: "Satisfy", cursive;
+}
+textarea {
+  width: 100%;
+  height: 100px;
+  outline: none;
+  border-color: #ff6b6b;
+  border-width: 2;
+}
+.d4 {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+.aa1 {
+  width: 80%;
+  margin: auto;
+  box-shadow: 5px 5px 20px black;
+  padding: 20px 20px 20px 20px;
+  background-color: #ffdfaf;
+}
+#ii1 {
+  width: 100%;
+  height: 1400px;
+}
+
+/* CK Editor ma ROWS Add Krva */
+.ck-editor__editable_inline {
+  min-height: 100px;
+}
+.div {
+  color: black !important;
+}
+#l1 {
+  color: white;
+}
+input {
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+}
+.error {
+  color: red;
+}
+.chosen-container {
+  width: 100% !important;
+}
+.example-image {
+  width: 100%;
+}
+.cl2 {
+  width: 80%;
+  height: 790px;
+  margin: auto;
+  box-shadow: 5px 5px 20px black;
+  padding: 20px 20px 20px 20px;
+  border: 2px solid black;
+  background-color: #ffdede;
+}
+.da1 {
+  width: 49.6%;
+  float: left;
+  margin-left: 3px;
+}
+.da2 {
+  width: 49.6%;
+  float: right;
+  margin-right: 3px;
+}
+.z1 {
+  width: 80% !important;
+  margin: auto;
+  box-shadow: 5px 5px 20px black;
+  padding: 20px 20px 20px 20px;
+  border: 2px solid black;
+  background-color: #cdf0ea;
+}
+/* .dataTables_wrapper {
+  margin-top: 250px !important;
+} */
+#example_wrapper {
+  margin-top: 50px !important;
+}
+h1 {
+  text-align: center !important;
+  text-shadow: 2px 2px 3px black;
+  font-size: 50px;
+  margin-top: 0px !important;
+}
+.ck {
+  border-color: #ff6b6b !important;
+  border-width: 2px !important;
+}
+/* chosen-container-single chosen-container-active */
+#btn {
+  padding: 20px 20px 20px 20px;
+  font-size: 25px;
+  background-color: #b85c38;
+  color: white;
+  outline: none;
+}
+#btn:hover {
+  background-color: #5f7a61;
+}
+
+.cke_inner {
+  border-color: #ff6b6b !important;
+  border-width: 2px !important;
+}
+
+.cke_reset {
+  border-color: #ff6b6b !important;
+  border-width: 2px !important;
+}
+
+.chosen-choices {
+  border-color: #ff6b6b !important;
+  border-width: 2px !important;
+  height: 50px !important;
+  padding: 10px !important;
+}
+.introerr {
+  color: red;
+  font-size: 20px;
+  font-family: "Satisfy", cursive;
+}

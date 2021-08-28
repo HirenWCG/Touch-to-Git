@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("tr:gt(3)").css("background-color", "yellow");
+        $(":header").css("background-color", "yellow");
+        $("p:lang(it)").css("background-color", "red");
+        $("h3").not(".intro").css("background-color", "blue");
+      });
+    </script>
+  </head>
+  <body>
+    <h3>My name is Donald.</h3>
+    <h3 class="intro">I live in Duckburg.</h3>
+    <h3 class="intro">I love Duckburg.</h3>
+    <h3>My best friend is Mickey.</h3>
+    <table border="1">
+      <tr>
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Country</th>
+      </tr>
+      <tr>
+        <td>Alfreds Futterkiste</td>
+        <td>Maria Anders</td>
+        <td>Germany</td>
+      </tr>
+      <tr>
+        <td>Berglunds snabbköp</td>
+        <td>Christina Berglund</td>
+        <td>Sweden</td>
+      </tr>
+      <tr>
+        <td>Centro comercial Moctezuma</td>
+        <td>Francisco Chang</td>
+        <td>Mexico</td>
+      </tr>
+      <tr>
+        <td>Ernst Handel</td>
+        <td>Roland Mendel</td>
+        <td>Austria</td>
+      </tr>
+      <tr>
+        <td>Island Trading</td>
+        <td>Helen Bennett</td>
+        <td>UK</td>
+      </tr>
+      <tr>
+        <td>Königlich Essen</td>
+        <td>Philip Cramer</td>
+        <td>Germany</td>
+      </tr>
+      <tr>
+        <td>Laughing Bacchus Winecellars</td>
+        <td>Yoshi Tannamuri</td>
+        <td>Canada</td>
+      </tr>
+      <tr>
+        <td>Magazzini Alimentari Riuniti</td>
+        <td>Giovanni Rovelli</td>
+        <td>Italy</td>
+      </tr>
+      <tr>
+        <td>North/South</td>
+        <td>Simon Crowther</td>
+        <td>UK</td>
+      </tr>
+    </table>
+    <h1>Welcome to My Homepage</h1>
+    <h2>My Fantastic Homepage</h2>
+    <h3>It's amazing!</h3>
+
+    <p class="intro">My name is Donald.</p>
+    <p>I live in Duckburg.</p>
+    <p>My best friend is Mickey.</p>
+    <p>Who is your favourite:</p>
+    <p>I live in Italy.</p>
+    <p lang="it">Ciao bella!</p>
+  </body>
+</html>

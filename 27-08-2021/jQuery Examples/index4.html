@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("button").click(function () {
+          $("div").animate({ left: "250px" });
+        });
+        $("p").eq(1).css("background-color", "yellow");
+        $("tr:even").css("background-color", "yellow");
+        $("div p").first().css("background-color", "yellow");
+        $("div p").last().css("background-color", "green");
+      });
+    </script>
+  </head>
+  <body>
+    <div style="border: 1px solid black">
+      <p>This is a paragraph in a div.</p>
+      <p>This is a paragraph in a div.</p>
+    </div>
+    <br />
+
+    <div style="border: 1px solid black">
+      <p>This is a paragraph in another div.</p>
+      <p>This is a paragraph in another div.</p>
+    </div>
+
+    <p>This is also a paragraph.</p>
+    <br /><br /><br />
+    <p>My name is Donald (index 0).</p>
+    <p>Donald Duck (index 1).</p>
+    <p>I live in Duckburg (index 2).</p>
+    <p>My best friend is Mickey (index 3).</p>
+    <table border="1">
+      <tr>
+        <th>Company</th>
+        <th>Country</th>
+      </tr>
+      <tr>
+        <td>Alfreds Futterkiste</td>
+        <td>Germany</td>
+      </tr>
+      <tr>
+        <td>Berglunds snabbköp</td>
+        <td>Sweden</td>
+      </tr>
+      <tr>
+        <td>Centro comercial Moctezuma</td>
+        <td>Mexico</td>
+      </tr>
+      <tr>
+        <td>Ernst Handel</td>
+        <td>Austria</td>
+      </tr>
+      <tr>
+        <td>Island Trading</td>
+        <td>UK</td>
+      </tr>
+    </table>
+    <button>Start Animation</button>
+    <div
+      style="
+        background: #98bf21;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+      "
+    ></div>
+  </body>
+</html>

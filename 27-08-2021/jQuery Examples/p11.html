@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery [attribute|=value] Selector</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("p[class|='param']").css("color", "red");
+        // start param thi thatu hoy
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Article heading</h1>
+    <p>first paragraph</p>
+    <p class="waram">second paragraph</p>
+    <p class="param">third paragraph</p>
+    <p class="param-last">fourth paragraph</p>
+  </body>
+</html>

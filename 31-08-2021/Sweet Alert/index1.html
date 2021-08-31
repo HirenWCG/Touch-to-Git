@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        width: 40%;
+        margin: auto;
+        border: 1px solid black;
+      }
+      div {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <button onclick="btn()">Click Here to Submit Data</button>
+    </div>
+    <script>
+      function btn() {
+        swal({
+          title: "Good job!",
+          text: "Your Data Successfully Submitted...!",
+          icon: "success",
+          button: "Click Here!",
+        });
+      }
+    </script>
+  </body>
+</html>

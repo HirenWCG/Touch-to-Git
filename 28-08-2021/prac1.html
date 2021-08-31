@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <script type="text/javascript">
+      function Demo() {
+        alert("Hello i'm Alert");
+        var xmldemo = new XMLHttpRequest();
+        xmldemo.onreadystatechange = function () {
+          if (xmldemo.readyState == 4 && xmldemo.status == 200) {
+            document.getElementById("d1").innerHTML = xmldemo.responseText;
+          }
+        };
+        req.open("GET", "Hello.txt", true);
+        req.send();
+      }
+    </script>
+  </head>
+  <body>
+    <div id="d1">my first ajax program</div>
+    <input type="button" id="btn" value="Click Here!" onclick="Demo()" />
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<html> 
+    <head>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script>
+        $(document).ready(function () {
+            $("#mybtn").click(function (e) {
+                $.ajax({
+                    url: "file.txt",
+                    success:function(result, status, xhr){
+                        $("#myData").html(result);
+
+                    }
+                });
+            });
+         
+        });
+
+
+        </script>
+    </head>
+    <body>
+        <button id="mybtn" >Click</button>
+        <div id="myData"></div>
+    </body>
+</html>

@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-3.6.0.js"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $.ajax({
+          url: "data.json",
+          success: function (result, status, xhr) {
+            var table = $(
+              "<table><tr><th>Id</th><th>Name</th><th>Age</th></tr>"
+            );
+            var tr;
+            for (var i = 0; i < result.length; i++) {
+              tr = $("<tr>");
+              tr.append("<td>" + result[i].Id + "</td>");
+              tr.append("<td>" + result[i].Name + "</td>");
+              tr.append("<td>" + result[i].Age + "</td>");
+              tr.append("</tr>");
+              table.append(tr);
+            }
+            table.append("</table>");
+            $("#myData").html(table);
+          },
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="myData"></div>
+  </body>
+</html>

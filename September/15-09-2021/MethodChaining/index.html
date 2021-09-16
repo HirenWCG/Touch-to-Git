@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Cal1 {
+        constructor(initialValue) {
+          this.result = initialValue;
+          return this;
+        }
+        add(value) {
+          this.result = this.result + value;
+          return this;
+        }
+        sub(value) {
+          this.result = this.result - value;
+          return this;
+        }
+        mul(value) {
+          this.result = this.result * value;
+          return this;
+        }
+        div(value) {
+          this.result = this.result / value;
+          return this;
+        }
+        toString() {
+          return this.result;
+        }
+      }
+      var obj = new Cal1(5).add(3).mul(2);
+      document.write(obj);
+    </script>
+  </body>
+</html>

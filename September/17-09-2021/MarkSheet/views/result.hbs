@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <table
+        class="table table-bordered border-primary"
+        style="border: 5px solid black; width:50% !important; margin:auto"
+      >
+        <thead class="thead-dark">
+          <tr>
+            <th>Sub Code</th>
+            <th>Sub Name</th>
+            <th>Marks</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <th scope="row">184</th>
+            <td>Maths Marks</td>
+            <td>{{m1}}</td>
+          </tr>
+          <tr>
+            <th scope="row">085</th>
+            <td>Physics Marks</td>
+            <td>{{m2}}</td>
+          </tr>
+          <tr>
+            <th scope="row">258</th>
+            <td>Chemistry Marks</td>
+            <td>{{m3}}</td>
+          </tr>
+          <tr>
+            <th scope="row">412</th>
+            <td>English Marks</td>
+            <td>{{m4}}</td>
+          </tr>
+          <tr>
+            <th scope="row">321</th>
+            <td>Computer Marks</td>
+            <td>{{m5}}</td>
+          </tr>
+          <tr>
+            <th colspan="2">Your Total Marks: {{t}}</th>
+            <th>Grade: {{a}}</th>
+          </tr>
+        </tbody>
+      </table>
+
+      <div>
+        {{#if e}}
+          <div
+            style="width: 50%; margin:auto"
+            class="alert alert-success"
+            role="alert"
+          >
+            <center>{{e}}</center>
+
+          </div>
+        {{/if}}
+      </div>
+
+      <div>
+        {{#if ee}}
+          <div
+            style="width: 50%; margin:auto"
+            class="alert alert-danger"
+            role="alert"
+          >
+            <center>{{ee}}</center>
+          </div>
+        {{/if}}
+      </div>
+
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,4 +1,5 @@
 const Table = require("../models/Table");
+const nodemailer = require("nodemailer");
 
 function registerData(req, res, next) {
   var item = {
@@ -25,22 +26,30 @@ function registerData(req, res, next) {
 }
 
 function postData(req, res, next) {
-  let username = req.body.username;
-  let password = req.body.password;
+  let user = req.body.username;
+  let pass = req.body.password;
 
-  Table.find({ username, password })
+  Table.find({ username: user, password: pass })
     .then((user) => {
-      // console.log(user);
-      if (!user) {
-        res.redirect("/");
-      } else {
-        req.session.user = user[0].id;
-        console.log(req.session.userid);
-        res.redirect("/dashbord");
-      }
+      // console.log("Ravi" + user);
+      // console.log("Hiren" + user[0].username);
+      // if (user.username == user) {
+      //   // res.redirect("/");
+      //   res.render("login", { msg5: "Username or Password Wrong" });
+      // } else {
+      //   if (user.password == pass) {
+      //     res.render("login", { msg5: "Username or Password Wrong" });
+      //   } else {
+
+      //   }
+      // }
+      req.session.user = user[0].id;
+      console.log(req.session.userid);
+      res.redirect("/dashbord");
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
+      res.render("login", { msg5: "Username or Password Wrong" });
     });
 }
 
@@ -115,12 +124,15 @@ function changePassword(req, res) {
         console.log(data);
         if (oldpass != data.password) {
           let msg1 = "Enter Your Old Password";
-          res.render("dashbord", { msg1: msg1 });
+          res.json({ msg: msg1 });
+          // res.render("dashbord", { msg1: msg1 });
+          // res.redirect("/dashbord")
         } else {
           let newpass = req.body.newpassword;
           if (oldpass == newpass) {
             let msg2 = "It's your current password please set new password";
-            res.render("dashbord", { msg2: msg2 });
+            // res.render("dashbord", { msg2: msg2 });
+            res.json({ msg: msg2 });
           } else {
             let newpass = req.body.newpassword;
             let repass = req.body.repassword;
@@ -136,7 +148,8 @@ function changePassword(req, res) {
                 });
             } else {
               let msg3 = "Password not match";
-              res.render("dashbord", { msg3: msg3 });
+              // res.render("dashbord", { msg3: msg3 });
+              res.json({ msg: msg3 });
             }
           }
         }
@@ -147,6 +160,54 @@ function changePassword(req, res) {
   }
 }
 
+function forgotPassword(req, res) {
+  let forgotemail = req.body.forgotmail;
+  Table.findOne({ email: forgotemail })
+    .then((data) => {
+      if (data == null) {
+        return res.json({ msg: "Please Enter Registred Email Address..." });
+      } else {
+        let pass = data.password;
+        async function main() {
+          // Generate test SMTP service account from ethereal.email
+          // Only needed if you don't have a real mail account for testing
+          let testAccount = await nodemailer.createTestAccount();
+
+          // create reusable transporter object using the default SMTP transport
+          let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+              user: "herrypottar21@gmail.com", // generated ethereal user
+              pass: "herry123!@#", // generated ethereal password
+            },
+          });
+
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+            from: '"Webcodegeine" <herrypottar21@gmail.com>', // sender address
+            to: forgotemail, // list of receivers
+            subject: "Your Password is Received", // Subject line
+            html: `<h1>Your Password is: ${pass}</h1>`, // html body
+          });
+          res.render("login", { msg: "Password Send Successfully" });
+          console.log("Message sent: %s", info.messageId);
+          // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+          // Preview only available when sending through an Ethereal account
+          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+          // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+        }
+
+        main().catch(console.error);
+      }
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
 module.exports = {
   registerData,
   postData,
@@ -154,4 +215,5 @@ module.exports = {
   profilePicture,
   editData,
   changePassword,
+  forgotPassword,
 };

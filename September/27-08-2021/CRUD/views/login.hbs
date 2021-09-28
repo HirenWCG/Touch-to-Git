@@ -7,8 +7,10 @@
     />
     <title>Bootstrap Simple Login Form</title>
     <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
     />
     <link
       rel="stylesheet"
@@ -17,9 +19,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     ></script>
     <style>
       .login-form { width: 340px; margin: 50px auto; font-size: 15px; }
@@ -31,9 +30,17 @@
   </head>
   <body>
     <div class="login-form">
+      {{#if msg}}
+        <div class="alert alert-success" role="alert">
+          {{msg}}
+        </div>
+      {{/if}}
+      {{#if msg5}}
+       <div class="alert alert-danger" role="alert">{{msg5}}</div>
+      {{/if}}
       <form action="/login" method="POST">
-        <h2 class="text-center">Log in</h2>
-        <div class="form-group">
+        <h2 class="text-center">Login</h2>
+        <div class="mb-3">
           <input
             type="text"
             class="form-control"
@@ -42,7 +49,7 @@
             required="required"
           />
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <input
             type="password"
             class="form-control"
@@ -51,11 +58,70 @@
             required="required"
           />
         </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+        
         </div>
       </form>
-      <p class="text-center"><a href="#">Create an Account</a></p>
+
+
+
+
+      
+      <p class="text-center"><a href="/register">Create an Account</a></p>
     </div>
+    <div class="d-grid gap-2" style="margin-top:20px !important">
+          <a
+            class="text-center"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal2"
+            data-bs-whatever="@mdo"
+          >Forgot Password</a>
+        </div>
+        <div
+          class="modal fade"
+          id="exampleModal2"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Forgot Your
+                  Password Here</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form action="/forgot-password" method="POST">
+                  <div class="mb-3">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="forgotmail"
+                      name="forgotmail"
+                      placeholder="Enter Your Registered Mail Id"
+                    />
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >Close</button>
+                    <button type="submit" class="btn btn-primary">Forgot
+                      Password</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    </script>
   </body>
 </html>

@@ -11,6 +11,7 @@ const {
   profilePicture,
   editData,
   changePassword,
+  forgotPassword,
 } = require("../controller/usercontroller");
 const session = require("express-session");
 /* GET home page. */
@@ -82,5 +83,7 @@ router.post("/profile-picture", imageUpload, profilePicture);
 router.post("/edit-data", editData);
 
 router.post("/change-password", changePassword);
+
+router.post("/forgot-password", forgotPassword);
 
 module.exports = router;

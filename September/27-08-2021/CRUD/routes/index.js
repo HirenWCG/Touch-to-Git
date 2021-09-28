@@ -10,6 +10,7 @@ const {
   getDashbord,
   profilePicture,
   editData,
+  changePassword,
 } = require("../controller/usercontroller");
 const session = require("express-session");
 /* GET home page. */
@@ -79,5 +80,7 @@ const imageUpload = multer({
 router.post("/profile-picture", imageUpload, profilePicture);
 
 router.post("/edit-data", editData);
+
+router.post("/change-password", changePassword);
 
 module.exports = router;

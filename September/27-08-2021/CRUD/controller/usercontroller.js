@@ -107,10 +107,51 @@ function editData(req, res) {
   }
 }
 
+function changePassword(req, res) {
+  if (req.session.user) {
+    let oldpass = req.body.password;
+    Table.findById(req.session.user)
+      .then((data) => {
+        console.log(data);
+        if (oldpass != data.password) {
+          let msg1 = "Enter Your Old Password";
+          res.render("dashbord", { msg1: msg1 });
+        } else {
+          let newpass = req.body.newpassword;
+          if (oldpass == newpass) {
+            let msg2 = "It's your current password please set new password";
+            res.render("dashbord", { msg2: msg2 });
+          } else {
+            let newpass = req.body.newpassword;
+            let repass = req.body.repassword;
+            if (newpass == repass) {
+              data.password = newpass;
+              data
+                .save()
+                .then(() => {
+                  return res.redirect("/dashbord");
+                })
+                .catch((err) => {
+                  throw err;
+                });
+            } else {
+              let msg3 = "Password not match";
+              res.render("dashbord", { msg3: msg3 });
+            }
+          }
+        }
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+}
+
 module.exports = {
   registerData,
   postData,
   getDashbord,
   profilePicture,
   editData,
+  changePassword,
 };

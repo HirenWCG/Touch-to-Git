@@ -18,6 +18,7 @@ router.get("/dashbord", (req, res) => {
       .find()
       .lean()
       .then((data) => {
+        console.log(data);
         let a = "Edit Item";
         res.render("admin/index", { product: data });
       })

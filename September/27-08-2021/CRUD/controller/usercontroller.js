@@ -77,23 +77,22 @@ function profilePicture(req, res) {
       if (err) {
         return res.status(500).send(err);
       } else {
-        res.json({ msg: "img save" });
+        Table.findById(req.session.user)
+          .then((data) => {
+            data.img = imgname.name;
+            data
+              .save()
+              .then(() => {
+                res.redirect("/dashbord");
+              })
+              .catch((err) => {
+                throw err;
+              });
+          })
+          .catch((err) => {
+            throw err;
+          });
       }
-      Table.findById(req.session.user)
-        .then((data) => {
-          data.img = imgname;
-          data
-            .save()
-            .then(() => {
-              res.redirect("/dashbord");
-            })
-            .catch((err) => {
-              throw err;
-            });
-        })
-        .catch((err) => {
-          throw err;
-        });
     });
 
     console.log(req.file);

@@ -64,29 +64,38 @@ function getDashbord(req, res, next) {
         console.log(err);
       });
   } else {
-    res.redirect("/");
+    res.redirect("/login");
   }
 }
 
 function profilePicture(req, res) {
   if (req.session.user) {
-    let imgname = req.file.filename;
+    let imgname = req.files.filename;
+    console.log(imgname);
 
-    Table.findById(req.session.user)
-      .then((data) => {
-        data.img = imgname;
-        data
-          .save()
-          .then(() => {
-            res.redirect("/dashbord");
-          })
-          .catch((err) => {
-            throw err;
-          });
-      })
-      .catch((err) => {
-        throw err;
-      });
+    imgname.mv(`public/images/${req.files.filename.name}`, (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        res.json({ msg: "img save" });
+      }
+      Table.findById(req.session.user)
+        .then((data) => {
+          data.img = imgname;
+          data
+            .save()
+            .then(() => {
+              res.redirect("/dashbord");
+            })
+            .catch((err) => {
+              throw err;
+            });
+        })
+        .catch((err) => {
+          throw err;
+        });
+    });
+
     console.log(req.file);
   }
 }

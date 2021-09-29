@@ -40,8 +40,6 @@ router.get("/dashbord", getDashbord);
 
 router.get("/logout", (req, res) => {
   if (req.session.user) {
-    res.redirect("/");
-  } else {
     req.session.destroy((err) => {
       if (err) {
         throw err;
@@ -78,7 +76,7 @@ const imageUpload = multer({
   },
 }).single("dp");
 
-router.post("/profile-picture", imageUpload, profilePicture);
+router.post("/profile-picture", profilePicture);
 
 router.post("/edit-data", editData);
 

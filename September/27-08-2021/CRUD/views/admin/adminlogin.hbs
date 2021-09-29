@@ -1,4 +1,4 @@
-<html lang="en">
+            <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta
@@ -30,8 +30,11 @@
   </head>
   <body>
     <div class="login-form">
-      <form action="/login" method="POST">
-        <h2 class="text-center">Login</h2>
+      {{#if adminmsg}}
+       <div class="alert alert-danger" role="alert">{{adminmsg}}</div>
+      {{/if}}
+      <form action="" method="POST">
+        <h2 class="text-center">Admin Login</h2>
         <div class="mb-3">
           <input
             type="text"
@@ -61,7 +64,7 @@
 
 
       
-      <p class="text-center"><a href="/register">Create an Account</a></p>
+     
     </div>
     <div class="d-grid gap-2" style="margin-top:20px !important">
           <a

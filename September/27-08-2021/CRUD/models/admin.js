@@ -9,4 +9,4 @@ const tableSchema = new mongoose.Schema({
   auth: Number,
 });
 
-module.exports = mongoose.model("adminData", tableSchema);
+module.exports = mongoose.model("adminPanel", tableSchema);

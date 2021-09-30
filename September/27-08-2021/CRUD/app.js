@@ -6,8 +6,8 @@ var logger = require("morgan");
 const session = require("express-session");
 const fileupload = require("express-fileupload");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/admin");
+var indexRouter = require("./routes/userRouter");
+var usersRouter = require("./routes/adminRouter");
 var productRouter = require("./routes/productRouter");
 var app = express();
 

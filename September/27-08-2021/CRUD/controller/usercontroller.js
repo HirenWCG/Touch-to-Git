@@ -1,4 +1,5 @@
 const Table = require("../models/Table");
+const productModel = require("../models/productModel");
 const nodemailer = require("nodemailer");
 
 function registerData(req, res, next) {
@@ -58,7 +59,14 @@ function getDashbord(req, res, next) {
   if (req.session.user) {
     Table.findById(req.session.user)
       .then((data) => {
-        res.render("dashbord", { user: data });
+        productModel
+          .find()
+          .then((products) => {
+            res.render("dashbord", { user: data, products: products });
+          })
+          .catch((err) => {
+            throw err;
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -95,7 +103,7 @@ function profilePicture(req, res) {
       }
     });
 
-    console.log(req.file);
+    // console.log(req.file);
   }
 }
 

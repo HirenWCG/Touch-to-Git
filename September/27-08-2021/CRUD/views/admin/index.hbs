@@ -161,10 +161,12 @@
               </div>
             </div>
             <div class="container">
-                {{#each product}}
+                
    <div class="row">
+     
     <div class="col">
-      <div class="card mb-3" style="max-width: 540px;">
+      {{#each product}}
+      {{!-- <div class="card mb-3" style="max-width: 540px;">
   <div class="row g-0">
     <div class="col-md-4">
       <img src="/productsImages/{{product_image}}" class="img-fluid rounded-start" alt="...">
@@ -180,10 +182,30 @@
     </div>
   </div>
 </div>
+    </div> --}}
+    <div class="card m-2">
+  <div class="card-header">
+   <h5 class="card-title">{{product_name}}</h5> 
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-7">
+         
+    <p class="card-text">{{product_detail}}</p>
+    <h5 class="card-title">Price is: {{product_price}}</h5> 
+    <a href="/product/editproduct/{{_id}}" class="btn btn-primary">Edit Item</a>
+    <a href="/product/deletehi/{{_id}}" class="btn btn-danger">Delete Item</a>
+      </div>
+    <div class="col-md-5"><img src="/productsImages/{{product_image}}" style="height: 250px; width: 360px;" class="card-img-top" alt="..."></div>
     </div>
+   
   </div>
 </div>
-{{/each}}
+      {{/each}}
+  </div>
+
+</div>
+
  
           </div>
         </main>

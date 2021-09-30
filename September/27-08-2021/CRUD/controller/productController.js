@@ -32,6 +32,25 @@ function addProduct(req, res) {
   }
 }
 
+function editProduct(req, res) {
+  var item = {
+    product_name: req.body.pname,
+    product_detail: req.body.pdetails,
+    product_price: req.body.productprice,
+    product_image: req.files.pimg.name,
+  };
+  let id = req.params.id;
+  productModel
+    .findByIdAndUpdate(id, item)
+    .then(() => {
+      res.redirect("/admin/dashbord");
+    })
+    .catch(() => {
+      console.log("err");
+    });
+}
+
 module.exports = {
   addProduct,
+  editProduct,
 };

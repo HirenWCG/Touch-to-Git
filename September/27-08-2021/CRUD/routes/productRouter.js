@@ -39,4 +39,5 @@ router.get("/deletehi/:id", (req, res) => {
     res.redirect("/admin");
   }
 });
+
 module.exports = router;

@@ -2,7 +2,7 @@ const productModel = require("../models/productModel");
 
 function addProduct(req, res) {
   if (req.session.admin) {
-    console.log(req.files.pimg);
+    // console.log(req.files.pimg);
     var item = {
       product_name: req.body.pname,
       product_detail: req.body.pdetails,

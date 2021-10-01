@@ -1,6 +1,7 @@
 const Table = require("../models/Table");
 const productModel = require("../models/productModel");
 const nodemailer = require("nodemailer");
+const cartModel = require("../models/cartModel");
 
 function registerData(req, res, next) {
   var item = {
@@ -62,7 +63,28 @@ function getDashbord(req, res, next) {
         productModel
           .find()
           .then((products) => {
-            res.render("dashbord", { user: data, products: products });
+            let a = data.id;
+            cartModel
+              .find({ "user.user_id": a })
+              .then((cart) => {
+                if (cart == 0) {
+                  res.render("dashbord", {
+                    user: data,
+                    products: products,
+                    cart: a,
+                  });
+                } else {
+                  let a = cart[0].products;
+                  res.render("dashbord", {
+                    user: data,
+                    products: products,
+                    cart: a,
+                  });
+                }
+              })
+              .catch((err) => {
+                throw err;
+              });
           })
           .catch((err) => {
             throw err;

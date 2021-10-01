@@ -71,9 +71,43 @@
   .shadow-none {
     box-shadow: none !important;
   }
+  body{
+    margin: 0px;
+    padding: 0px;
+  }
 </style>
 
 <body>
+<nav class="navbar navbar-dark bg-primary">
+  <div class="container"><a class="btn btn-light" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+  View Cart
+</a>
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Your favorite Product List</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    {{#if cart}}
+   {{#each cart}}
+<div class="card m-2">
+  <div class="card-header" style="background-color: #1a202c; color:white">
+    {{name}}
+  </div>
+  <div class="card-body" style="background-color: wheat;">
+    <h5 class="card-title">Your Products Price is: {{price}}</h5>
+    <a href="/cart/delete/{{_id}}" class="btn btn-danger">Delete Item</a>
+    <a href="#" class="btn btn-success">Buy Now</a>
+  </div>
+</div>
+{{/each}}
+{{else}}
+<div></div>
+{{/if}}
+  </div>
+</div></div>
+</nav>
   <div class="container">
     <div class="main-body">
       <div class="row gutters-sm">

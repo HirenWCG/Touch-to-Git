@@ -68,6 +68,38 @@ function cart(req, res, next) {
     res.redirect("/login");
   }
 }
+
+function deleteCartItem(req, res) {
+  if (req.session.user) {
+    let deleteid = req.params.id;
+    // console.log("Hiiiiiiiiiiiiiiiiiiii" + deleteid);
+    cartModel
+      .find({ "products._id": deleteid })
+      .then((data) => {
+        // console.log("Hiiiiiiiiiiiiiiiiii" + data);
+        // let a = data[0].products;
+        // console.log("aaaaaaaaaaaaaaaaaaaaa" + data[0].id);
+        let a = data[0].id;
+        console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkk" + a);
+        // console.log("Immmmmmmmmmmmmmmmm" + deleteid);
+        // let z = a.pull({ _id: deleteid });
+        // cartModel.findOneAndDelete({ _id: deleteid }, (err, data3) => {
+        //   // res.redirect("/dashbord");
+        // });
+        // console.log(z);
+        cartModel.deleteOne({ _id: a }, { $pull: { _id: deleteid } });
+        data[0].save().then((hi) => {
+          res.redirect("/dashbord");
+        });
+      })
+      .catch((err) => {
+        throw err;
+      });
+  } else {
+    res.redirect("/login");
+  }
+}
 module.exports = {
   cart,
+  deleteCartItem,
 };

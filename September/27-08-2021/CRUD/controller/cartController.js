@@ -9,14 +9,52 @@ function cart(req, res, next) {
       .findById(id)
       .then((data) => {
         if (data == null) {
-          console.log("data not found");
+          console.log("First data not found");
         } else {
           Table.findById(req.session.user)
             .then((user) => {
-              let user3 = user.id;
-              let user2 = user.username;
-              console.log("Hello im z" + z);
-              cartModel(user);
+              // console.log("userdata" + user.id);
+              let a = user.id;
+              cartModel.find({ "user.user_id": a }).then((cart) => {
+                if (cart == 0) {
+                  let item = {
+                    user: {
+                      user_id: user._id,
+                      username: user.username,
+                    },
+                    products: [
+                      {
+                        productId: data._id,
+                        name: data.product_name,
+                        price: data.product_price,
+                      },
+                    ],
+                  };
+                  let tempData = cartModel(item);
+                  tempData.save((err, result) => {
+                    if (err) {
+                      // console.log("Second data not found");
+                      console.log(err);
+                    } else {
+                      res.redirect("/dashbord");
+                    }
+                  });
+                } else {
+                  // console.log(cart[0]);
+                  // console.log("dfgggfggfggfggfgf" + cart[0].products);
+                  cart[0].products.push({
+                    productId: data._id,
+                    name: data.product_name,
+                    price: data.product_price,
+                  });
+                  cart[0]
+                    .save()
+                    .then(() => {
+                      res.redirect("/dashbord");
+                    })
+                    .catch();
+                }
+              });
             })
             .catch((err) => {
               throw err;
@@ -26,7 +64,6 @@ function cart(req, res, next) {
       .catch((err) => {
         throw err;
       });
-    res.send("ok");
   } else {
     res.redirect("/login");
   }

@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const tableSchema = new mongoose.Schema({
-  userId: {
+  user: {
     user_id: String,
     username: String,
   },
   products: [
     {
-      productId: Number,
+      productId: String,
       name: String,
       price: Number,
     },

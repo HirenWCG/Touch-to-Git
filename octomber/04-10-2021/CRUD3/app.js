@@ -5,20 +5,20 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const session = require("express-session");
 const fileupload = require("express-fileupload");
-
 var indexRouter = require("./routes/userRouter");
 var usersRouter = require("./routes/adminRouter");
 var productRouter = require("./routes/productRouter");
 var cartRouter = require("./routes/cartRouter");
+const flash = require("express-flash");
 var app = express();
 
 require("./db")();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
-
 app.use(logger("dev"));
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
@@ -36,6 +36,7 @@ app.use(
   })
 );
 app.use(fileupload());
+app.use(flash());
 
 app.use("/", indexRouter);
 app.use("/admin", usersRouter);

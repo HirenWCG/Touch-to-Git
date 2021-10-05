@@ -22,8 +22,8 @@ function cart(req, res, next) {
         if (data == null) {
           console.log("First data not found");
         } else {
-          let pname = data.product_name;
-          console.log(req.cookies);
+          // let pname = data.product_name;
+          // console.log(req.cookies);
           // let cookie = get_cookies(req);
 
           // console.log("Cookie : ", cookie.cart);
@@ -137,8 +137,82 @@ function emptycart(req, res) {
   }
 }
 
+function payment(req, res) {
+  // console.log(req.session.userid);
+  if (req.session.user) {
+    // let recentProductsIds = req.cookies.products
+
+    Table.findById(req.session.user)
+      .then((data) => {
+        productModel
+          .find()
+          .then((products) => {
+            let a = data.id;
+            cartModel
+              .findOne({ user_id: a })
+              .then((cart) => {
+                let recentProductsIds = req.cookies.products;
+
+                productModel
+                  .find({ _id: { $in: recentProductsIds } })
+                  .then((recentProduct) => {
+                    if (!!cart) {
+                      let totalPrice = 0;
+                      for (let product of cart.products) {
+                        totalPrice += parseInt(product.price);
+                      }
+                      let hasRecentProducts = recentProduct.length
+                        ? true
+                        : false;
+                      let z = cart.id;
+                      let a = cart.products;
+                      res.render("dashbord", {
+                        user: data,
+                        products: products,
+                        cart: a,
+                        cartObjectId: z,
+                        total: totalPrice,
+                        recentProduct,
+                        hasRecentProducts,
+                      });
+                    } else {
+                      let hasRecentProducts = recentProduct.length
+                        ? true
+                        : false;
+                      res.render("dashbord", {
+                        user: data,
+                        products: products,
+                        recentProduct,
+                        total: totalPrice,
+                        hasRecentProducts,
+                      });
+                    }
+                    // console.log("recent" + recentProduct.length);
+                  })
+                  .catch((err) => {
+                    next(err);
+                  });
+              })
+              .catch((err) => {
+                throw err;
+              });
+          })
+          .catch((err) => {
+            throw err;
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  } else {
+    res.redirect("/login");
+  }
+  res.render("payment/payment");
+}
+
 module.exports = {
   cart,
   deleteCartItem,
   emptycart,
+  payment,
 };

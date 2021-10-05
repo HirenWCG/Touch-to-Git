@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const path = require("path");
 const Table = require("../models/Table");
+const flash = require("flash");
 const {
   registerData,
   postData,
@@ -17,7 +18,9 @@ const session = require("express-session");
 /* GET home page. */
 
 router.get("/", (req, res) => {
+  req.flash("message", "Success!!");
   res.render("index");
+  // req.flash("message", "Success!!");
 });
 
 router.get("/register", function (req, res, next) {

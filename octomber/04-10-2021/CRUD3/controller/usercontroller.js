@@ -76,28 +76,31 @@ function getDashbord(req, res, next) {
             cartModel
               .findOne({ user_id: a })
               .then((cart) => {
-                if (!!cart) {
-                  let totalPrice = 0;
-                  for (let product of cart.products) {
-                    totalPrice += parseInt(product.price);
-                  }
+                let recentProductsIds = req.cookies.products;
 
-                  let z = cart.id;
-                  let a = cart.products;
-                  res.render("dashbord", {
-                    user: data,
-                    products: products,
-                    cart: a,
-                    cartObjectId: z,
-                    total: totalPrice,
-                  });
-                } else {
-                  let recentProductsIds = req.cookies.products;
-
-                  productModel
-                    .find({ _id: { $in: recentProductsIds } })
-                    .then((recentProduct) => {
-                      console.log("recent" + recentProduct.length);
+                productModel
+                  .find({ _id: { $in: recentProductsIds } })
+                  .then((recentProduct) => {
+                    if (!!cart) {
+                      let totalPrice = 0;
+                      for (let product of cart.products) {
+                        totalPrice += parseInt(product.price);
+                      }
+                      let hasRecentProducts = recentProduct.length
+                        ? true
+                        : false;
+                      let z = cart.id;
+                      let a = cart.products;
+                      res.render("dashbord", {
+                        user: data,
+                        products: products,
+                        cart: a,
+                        cartObjectId: z,
+                        total: totalPrice,
+                        recentProduct,
+                        hasRecentProducts,
+                      });
+                    } else {
                       let hasRecentProducts = recentProduct.length
                         ? true
                         : false;
@@ -106,14 +109,13 @@ function getDashbord(req, res, next) {
                         products: products,
                         recentProduct,
                         hasRecentProducts,
-
-                        // total: totalPrice,
                       });
-                    })
-                    .catch((err) => {
-                      next(err);
-                    });
-                }
+                    }
+                    // console.log("recent" + recentProduct.length);
+                  })
+                  .catch((err) => {
+                    next(err);
+                  });
               })
               .catch((err) => {
                 throw err;

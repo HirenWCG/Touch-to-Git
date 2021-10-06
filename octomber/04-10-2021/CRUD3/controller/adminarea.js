@@ -1,3 +1,4 @@
+const flash = require("express-flash");
 const admin = require("../models/admin");
 const productModel = require("../models/productModel");
 
@@ -9,9 +10,11 @@ function adminArea(req, res) {
     .findOne({ username: adminusername, password: adminpassword, auth: auth })
     .then((data) => {
       if (data == null) {
-        res.render("admin/adminlogin", { adminmsg: "You are Not Admin" });
+        req.flash("error", "Invalid Credentials !!");
+        res.redirect("/admin");
       } else {
         req.session.admin = data._id;
+        req.flash("success", "Welcome!!");
         res.redirect("/admin/dashbord");
       }
     })

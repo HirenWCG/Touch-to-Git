@@ -20,7 +20,7 @@ router.get("/dashbord", (req, res) => {
       .then((data) => {
         console.log(data);
         let a = "Edit Item";
-        res.render("admin/index", { product: data });
+        res.render("admin/index", { layout: "layout", product: data });
       })
       .catch((err) => {});
 

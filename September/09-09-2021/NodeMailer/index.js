@@ -1,7 +1,7 @@
 const http = require("http");
 const nodemailer = require("nodemailer");
 
-http.createServer((req, res) => {}).listen(3000);
+http.createServer((req, res) => {}).listen(6000);
 console.log("Server Run on Port 3000");
 async function main() {
   // Generate test SMTP service account from ethereal.email

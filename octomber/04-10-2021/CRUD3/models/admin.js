@@ -6,7 +6,6 @@ const tableSchema = new mongoose.Schema({
   email: String,
   password: String,
   img: String,
-  auth: Number,
 });
 
 module.exports = mongoose.model("adminPanel", tableSchema);

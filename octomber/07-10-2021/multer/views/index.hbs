@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <!------ Include the above in your HEAD tag ---------->
+</head>
+
+<body>
+
+
+
+    <div class="container">
+        <form class="form-horizontal" role="form" method="POST" action="/sendemail" enctype="multipart/form-data">
+            <h2>E-mail</h2>
+            <div class="form-group">
+                <label for="lastName" class="col-sm-3 control-label">To :</label>
+                <div class="col-sm-9">
+                    <input type="email" id="to" name="to" placeholder="Write receiver email address"
+                        class="form-control" autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="col-sm-3 control-label">Subject : </label>
+                <div class="col-sm-9">
+                    <input type="text" id="sub" name="subject" placeholder="Subject" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-3 control-label">Message :</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" name="body" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div><br/><br/>
+                <label for="attachment" class="col-sm-3 control-label">Attachment:</label>
+                <div class="form-group" style="margin-top: 40px;">
+                    <input type="file" required class="form-control" name="image" id="d" multiple>
+                </div>
+            </div>
+            <div class="form-group">
+                <a href="/"><button type="submit" class="btn btn-primary btn-lg btn-block">Send Message</button></a>
+            </div>
+        </form> <!-- /form -->
+    </div> <!-- ./container -->
+</body>
+
+</html>

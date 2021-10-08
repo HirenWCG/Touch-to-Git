@@ -42,12 +42,16 @@
 <body>
   <div class="login-form">
     {{#if msg}}
-    <div class="alert alert-success" role="alert">
-      {{msg}}
-    </div>
+   <div class="alert alert-dismissible alert-success">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+ {{msg}}
+</div>
     {{/if}}
     {{#if msg5}}
-    <div class="alert alert-danger" role="alert">{{msg5}}</div>
+     <div class="alert alert-dismissible alert-danger">
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+ {{msg5}}
+</div>
     {{/if}}
     <form action="/login" method="POST">
       <h2 class="text-center">Login</h2>

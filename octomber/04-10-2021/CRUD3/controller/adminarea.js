@@ -10,11 +10,11 @@ function adminArea(req, res) {
     .findOne({ username: adminusername, password: adminpassword, auth: auth })
     .then((data) => {
       if (data == null) {
-        req.flash("error", "Invalid Credentials !!");
-        res.redirect("/admin");
+        // req.flash("error", "Invalid Credentials !!");
+        res.render("admin/adminlogin", { adminmsg: "You are Not Admin" });
       } else {
         req.session.admin = data._id;
-        req.flash("success", "Welcome!!");
+        // req.flash("success", "Welcome!!");
         res.redirect("/admin/dashbord");
       }
     })

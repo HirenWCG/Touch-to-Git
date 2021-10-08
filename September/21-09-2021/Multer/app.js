@@ -17,7 +17,7 @@ const imageStorage = multer.diskStorage({
 const imageUpload = multer({
   storage: imageStorage,
   limits: {
-    fileSize: 2000000, // 2000000 Bytes = 1 MB
+    fileSize: 2000000, // 2000000 Bytes = 2 MB
   },
   fileFilter(req, file, cb) {
     if (!file.originalname.match(/\.(png|jpg)$/)) {
@@ -34,7 +34,7 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.listen(4000, () => {
+app.listen(3040, () => {
   console.log("Server Run on Port 4000");
 });
 

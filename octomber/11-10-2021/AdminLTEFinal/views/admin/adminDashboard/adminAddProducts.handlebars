@@ -1,0 +1,77 @@
+<div class="col-md-6" style="margin: auto;">
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Add Products Here...</h3>
+
+      <div class="card-tools">
+        <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
+          <i class="fas fa-minus"></i></button>
+      </div>
+    </div>
+    <form action="" method="POST", enctype="multipart/form-data">
+      <div class="card-body">
+        <div class="form-group">
+          <label for="inputName">Product Name</label>
+          <input type="text" name="productName" id="inputName" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="inputDescription">Product Description</label>
+          <textarea id="inputDescription" name="productDescription" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="inputName">Product Price</label>
+          <input type="text" id="inputName" name="productPrice" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="inputStatus">Select Product Category</label>
+
+          <select class="form-control custom-select" name="category" id="category-dropdown">
+            <option selected="" disabled="">Select Category</option>
+            {{#each categoryData}}
+            <option value="{{_id}}">{{categoryName}}</option>
+            {{/each}}
+          </select>
+
+        </div>
+        <div class="form-group">
+          <label for="inputStatus">Select Product Sub-Category</label>
+          <select class="form-control custom-select" name="subCategory" id="sub-category-dropdown">
+            <option selected="" disabled="">Select Sub-Category</option>
+          </select>
+
+        </div>
+        <div class="form-group">
+          <label for="inputName">Product Image</label>
+          <input type="file" name="productImage" id="uploadImage" class="form-control">
+        </div>
+        <div>
+          <button type="submit" class="btn btn-primary">Save Product</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <script>
+    $(document).ready(function () {
+      $('#category-dropdown').on('change', function () {
+        var id = this.value;
+        $.ajax({
+          url: "/admin/subcategories/"+id,
+          type: "GET",
+          success: function (result) {
+            $("#sub-category-dropdown").html('');
+            if(result.type =='success') {
+              let html = '<option selected="" disabled="">Select Sub-Category</option>';              
+              if(!!result.data) {
+                for(let subCat of result.data) {
+                  html += '<option value="'+subCat._id+'">'+subCat.subCategoryName+'</option>' 
+                }
+              }
+              $("#sub-category-dropdown").append(html);
+            } else {
+              alert(result.message)
+            }
+          }
+        });
+      });
+    });
+  </script>

@@ -1,0 +1,56 @@
+<div class="col-md-6" style="margin: auto;">
+  <form method="POST">
+    <div class="card card-danger">
+      <div class="card-header">
+        <h3 class="card-title">Area Form</h3>
+      </div>
+      <p style="background-color: green; color: white;">{{msg}}</p>
+      <div class="card-body">
+        <div class="form-group">
+          <label>Area</label>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="far fa-square"></i></span>
+            </div>
+            <input type="text" name="area_name" value="{{area_name}}" class="form-control" placeholder="Enter Area name"
+              required />
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.form group -->
+        {{!-- {{city_array}} --}}
+        <div class="form-group">
+          <label>Select City</label>
+          <div class="input-group">
+            <select class="form-control select2bs4" style="width: 100%;" name="_city" required>
+              {{#each city_array}}
+              <option value='{{_id}}'>{{city_name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.form group -->
+        {{!-- {{state_array}} --}}
+        <div class="form-group">
+          <label>Select State</label>
+          <div class="input-group">
+            <select class="form-control select2bs4" style="width: 100%;" name="_state" required>
+              {{#each state_array}}
+              <option value='{{_id}}'>{{state_name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.form group -->
+
+        <input class="btn btn-success" type="submit" value="Add Area" />
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </form>
+</div>

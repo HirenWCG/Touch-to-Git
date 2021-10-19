@@ -1,0 +1,54 @@
+<div class="col-md-6" style="margin: auto;">
+    <table id="example1" class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                 <th>State Name</th>
+                                 <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <p>{{mydata.length}} Records Found </p>
+                                {{#each mydata}}
+                                     <tr>
+                                      <td>{{state_name}}</td>
+                                        <td>
+                                          <a href='/admin/states/edit/{{_id}}'>Edit</a> | 
+                                          <a href='/admin/states/delete/{{_id}}' Onclick="ConfirmDelete()">Delete</a> 
+                                          {{!-- <a href='/state/show/{{_id}}'>Show</a> --}}
+                                        </td>
+                                     </tr>
+                                {{/each}}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                 <th>State Name</th>
+                                 <th>Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+</div>
+
+    <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+            });
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+         function ConfirmDelete() {
+            var x = confirm("Are you sure you want to delete?");
+            if (x)
+              return true;
+            else
+              return false;
+        }
+    </script>

@@ -1,0 +1,43 @@
+<div class="col-md-6" style="margin: auto;">
+  <form method="POST">
+    <div class="card card-danger">
+      <div class="card-header">
+        <h3 class="card-title">City-State Edit Form</h3>
+      </div>
+      <p style="background-color: green; color: white;">{{msg}}</p>
+      <div class="card-body">
+        <div class="form-group">
+          <label>City</label>
+
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="far fa-square"></i></span>
+            </div>
+            <input type="text" name="city_name" value="{{mydata.city_name}}" class="form-control"
+              placeholder="Enter City name" required />
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.form group -->
+        <div class="form-group">
+          <label>Select State</label>
+          {{!-- {{state_array}} --}}
+          <div class="input-group">
+            <select class="form-control select2bs4" style="width: 100%;" name="_state">
+              {{#each state_array}}
+              <option value="{{_id}}">{{state_name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <!-- /.input group -->
+        </div>
+        <!-- /.form group -->
+
+        <input class="btn btn-success" type="submit" value="Edit City" />
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+  </form>
+</div>

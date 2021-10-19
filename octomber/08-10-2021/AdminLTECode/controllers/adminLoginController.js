@@ -1,5 +1,8 @@
 // const flash = require("express-flash");
 const userModel = require("../models/userModel");
+const categoryModel = require("../models/categoryModel");
+const subCategory = require("../models/subCategoryModel");
+const nodemailer = require("nodemailer");
 // const productModel = require("../models/productModel");
 
 function postAdminLogin(req, res) {
@@ -69,10 +72,274 @@ function changePassword(req, res) {
   }
 }
 
+function postChangePassword(req, res) {
+  if (req.session.admin) {
+    let oldpass = req.body.password;
+    userModel
+      .findById(req.session.admin)
+      .then((data) => {
+        console.log(data);
+        if (oldpass != data.password) {
+          let msg1 = "Enter Your Old Password";
+          res.json({ msg: msg1 });
+          // res.render("dashbord", { msg1: msg1 });
+          // res.redirect("/dashbord")
+        } else {
+          let newpass = req.body.newpassword;
+          if (oldpass == newpass) {
+            let msg2 = "It's your current password please set new password";
+            // res.render("dashbord", { msg2: msg2 });
+            res.json({ msg: msg2 });
+          } else {
+            let newpass = req.body.newpassword;
+            let repass = req.body.repassword;
+            if (newpass == repass) {
+              data.password = newpass;
+              data
+                .save()
+                .then(() => {
+                  return res.redirect("/admin/dashboard");
+                })
+                .catch((err) => {
+                  throw err;
+                });
+            } else {
+              let msg3 = "Password not match";
+              // res.render("dashbord", { msg3: msg3 });
+              res.json({ msg: msg3 });
+            }
+          }
+        }
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+}
+
+function showallusers(req, res) {
+  if (req.session.admin) {
+    userModel
+      .find({ role: "user" })
+      .lean()
+      .then((data) => {
+        res.render("adminShowAllUsers", { data });
+      })
+      .catch((err) => {
+        throw err;
+      });
+  } else {
+    res.redirect("/admin/login");
+  }
+}
+
+function forgotPassword(req, res) {
+  res.render("adminForgotPassword", { layout: "secondMain.handlebars" });
+}
+
+function postForgotPassword(req, res) {
+  let forgotemail = req.body.forgotmail;
+  userModel
+    .findOne({ email: forgotemail })
+    .then((data) => {
+      if (data == null) {
+        return res.json({ msg: "Please Enter Registred Email Address..." });
+      } else {
+        let pass = data.password;
+        async function main() {
+          // Generate test SMTP service account from ethereal.email
+          // Only needed if you don't have a real mail account for testing
+          let testAccount = await nodemailer.createTestAccount();
+
+          // create reusable transporter object using the default SMTP transport
+          let transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false, // true for 465, false for other ports
+            auth: {
+              user: "herrypottar21@gmail.com", // generated ethereal user
+              pass: "herry123!@#", // generated ethereal password
+            },
+          });
+
+          // send mail with defined transport object
+          let info = await transporter.sendMail({
+            from: '"Webcodegeine" <herrypottar21@gmail.com>', // sender address
+            to: forgotemail, // list of receivers
+            subject: "Your Password is Received", // Subject line
+            html: `<h1>Your Password is: ${pass}</h1>`, // html body
+          });
+          res.redirect("/admin/login");
+          console.log("Message sent: %s", info.messageId);
+          // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+          // Preview only available when sending through an Ethereal account
+          console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+          // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+        }
+
+        main().catch(console.error);
+      }
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+function addProducts(req, res) {
+  if (req.session.admin) {
+    res.render("adminAddProducts");
+  } else {
+    res.redirect("/admin/login");
+  }
+}
+
+function postAddProducts(req, res) {
+  if (req.session.admin) {
+    // console.log(req.files.pimg);
+    var item = {
+      product_name: req.body.pname,
+      product_detail: req.body.pdetails,
+      product_price: req.body.productprice,
+      product_image: req.files.pimg.name,
+      product_categorie: req.body.categorie_name,
+    };
+
+    let img = req.files.pimg;
+
+    let tempData = productModel(item);
+
+    img.mv(`public/productsImages/${req.files.pimg.name}`, (err) => {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        tempData.save((err, result) => {
+          if (err) {
+            throw err;
+          } else {
+            res.redirect("/admin/dashbord");
+          }
+        });
+      }
+    });
+  } else {
+    res.redirect("/admin/login");
+  }
+}
+
+function addCategory(req, res) {
+  if (req.session.admin) {
+    res.render("admin/category/addCategory");
+  } else {
+    res.redirect("/admin/login");
+  }
+}
+
+function postAddCategory(req, res) {
+  const mybodydata = {
+    categoryName: req.body.category,
+  };
+  var data = categoryModel(mybodydata);
+
+  data
+    .save()
+    .then((data) => {
+      res.redirect("/admin/category/add");
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+function displayCategory(req, res) {
+  if (req.session.admin) {
+    categoryModel
+      .find()
+      .lean()
+      .then((data) => {
+        res.render("admin/category/displayCategory", { data });
+      })
+      .catch((err) => {
+        throw err;
+      });
+  } else {
+    res.redirect("/admin/login");
+  }
+}
+
+function addsubCategory(req, res) {
+  if (req.session.admin) {
+    categoryModel
+      .find()
+      .lean()
+      .then((data) => {
+        res.render("admin/subcategory/addSubCategory", { data });
+      })
+      .catch((err) => {
+        throw err;
+      });
+  } else {
+    res.redirect("/admin/login");
+  }
+}
+function postAddsubCategory(req, res) {
+  if (req.session.admin) {
+    const mybodydata = {
+      subCategoryName: req.body.subCategory,
+      _category: req.body._category,
+    };
+    var data = subCategory(mybodydata);
+    data
+      .save()
+      .then((data) => {
+        res.redirect("/admin/subcategory/display");
+      })
+      .catch((err) => {
+        throw err;
+      });
+  } else {
+    res.redirect("/admin/login");
+  }
+}
+function displaysubCategory(req, res) {
+  if (req.session.admin) {
+    subCategory.find(function (err, subCategoryName) {
+      // console.log(subCategoryName);
+
+      if (err) res.json({ message: "There are no posts here." });
+
+      subCategory
+        .find({})
+        .populate("_category")
+
+        .exec(function (err, subCategoryName) {
+          // console.log(subCategoryName);
+
+          res.render("admin/subcategory/displaySubCategory", {
+            subCategoryName,
+          });
+        });
+    });
+  } else {
+    res.redirect("/admin/login");
+  }
+}
 module.exports = {
   postAdminLogin,
   adminlogout,
   getAdminLogin,
   adminDashbord,
   changePassword,
+  postChangePassword,
+  showallusers,
+  forgotPassword,
+  postForgotPassword,
+  addProducts,
+  postAddProducts,
+  addCategory,
+  postAddCategory,
+  displayCategory,
+  addsubCategory,
+  postAddsubCategory,
+  displaysubCategory,
 };

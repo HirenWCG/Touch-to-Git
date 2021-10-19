@@ -1,0 +1,57 @@
+<div class="col-md-8" style="margin: auto;">
+    <table id="example1" class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>City Name</th>
+            <th>State Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <p>{{mydata.length}} Records Found </p>
+        {{#each mydata}}
+        <tr>
+            <td>{{city_name}}</td>
+            <td>{{_state.state_name}}</td>
+            <td>
+                <a href='/admin/city/edit/{{_id}}'>Edit</a> |
+                <a href='/admin/city/delete/{{_id}}' Onclick="ConfirmDelete()">Delete</a>
+                {{!-- <a href='/city/show/{{_id}}'>Show</a> --}}
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>City Name</th>
+            <th>State Name</th>
+            <th>Action</th>
+        </tr>
+    </tfoot>
+</table>
+
+</div>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+        });
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+        });
+    });
+    function ConfirmDelete() {
+        var x = confirm("Are you sure you want to delete?");
+        if (x)
+            return true;
+        else
+            return false;
+    }
+</script>

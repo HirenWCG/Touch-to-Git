@@ -1,0 +1,30 @@
+<div class="col-md-6" style="margin: auto;">
+    <div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Add Your Sub-Category Here...</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form action="" method="post">
+        <div class="card-body">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Add Sub-Category</label>
+                <input type="text" name="subCategory" class="form-control" id="exampleInputEmail1" placeholder="Enter Your Category">
+            </div>
+            <div>
+            <label for="exampleInputEmail1">Catgory</label>
+                    <select name="_category">
+                   {{#each data}}
+                        
+                            <option value='{{_id}}'>{{categoryName}}</option>
+                           
+                           {{/each}}
+                        </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+    
+    </div>
+</div>

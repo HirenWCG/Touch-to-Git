@@ -1,0 +1,38 @@
+<div class="col-md-6" style="margin: auto;">
+      <form method="POST">
+      <div class="card card-danger">
+        <div class="card-header">
+          <h3 class="card-title">State Form</h3>
+        </div>
+        <p style="background-color: green; color: white;">{{msg}}</p>
+        <div class="card-body">
+          <div class="form-group">
+            <label>State</label>
+
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><i
+                    class="far fa-square"
+                  ></i></span>
+              </div>
+              <input
+                type="text"
+                name="state_name"
+                value="{{state_name}}"
+                class="form-control"
+                placeholder="Enter State name" 
+                required
+              />
+            </div>
+            <!-- /.input group -->
+          </div>
+          <!-- /.form group -->
+        
+          <input class="btn btn-success" type="submit" value="Add State" />
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </form>
+</div>

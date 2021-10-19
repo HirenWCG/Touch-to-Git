@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Socket.IO chat</title>
+
+  {{!--
+  <script src="/socket.io/socket.io.js"></script> --}}
+
+  {{!--
+  <script src=" https://unpkg.com/socket.io-client@4.2.0/dist/socket.io.min.js"></script> --}}
+  {{!--
+  <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"
+    integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"
+    integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj"
+    crossorigin="anonymous"></script> --}}
+  <script src="https://cdn.socket.io/4.2.0/socket.io.min.js"
+    integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj"
+    crossorigin="anonymous"></script>
+  <script>
+    var socket = io(`http://localhost:300`);
+  </script>
+  <style>
+    body {
+      margin: 0;
+      padding-bottom: 3rem;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    #form {
+      background: rgba(0, 0, 0, 0.15);
+      padding: 0.25rem;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      height: 3rem;
+      box-sizing: border-box;
+      backdrop-filter: blur(10px);
+    }
+
+    #input {
+      border: none;
+      padding: 0 1rem;
+      flex-grow: 1;
+      border-radius: 2rem;
+      margin: 0.25rem;
+    }
+
+    #input:focus {
+      outline: none;
+    }
+
+    #form>button {
+      background: #333;
+      border: none;
+      padding: 0 1rem;
+      margin: 0.25rem;
+      border-radius: 3px;
+      outline: none;
+      color: #fff;
+    }
+
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #messages>li {
+      padding: 0.5rem 1rem;
+    }
+
+    #messages>li:nth-child(odd) {
+      background: #efefef;
+    }
+  </style>
+
+</head>
+
+<body onload="getUserName()">
+  {{!-- <p>{{msg}}</p> --}}
+  <ul id="messages"></ul>
+  <form id="form">
+    <span style="height: 10px;" id="userName"></span>
+    <input id="input" autocomplete="off" /><button name="submit" id="submit"> Send</button>
+  </form>
+</body>
+<script>
+
+        
+
+</script>
+<script>
+
+
+    function getUserName(){
+            var senderName = prompt("Enter your name :- ")
+        sessionStorage.setItem("Sender", senderName);
+        document.getElementById("userName").innerText = senderName
+   
+        }
+
+
+  var form = document.getElementById('form');
+  var input = document.getElementById('input');
+  var messages = document.getElementById('messages');
+var room = "123";
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+
+   // Connected, let's sign-up for to receive messages for this room
+   socket.emit('room', room);
+    if (input.value) {
+      
+      var senderName = sessionStorage.getItem("Sender")
+      document.getElementById("userName").innerText = senderName
+    socket.emit('room message', input.value, senderName , function(err, Data)({
+      console.log(Data)
+    }))
+        input.value = '';
+    }
+});
+
+
+   
+
+
+
+  socket.on('chat message', function (msg, senderName) {
+    var item = document.createElement('li');
+    var span = document.createElement('div')
+    item.textContent = msg;
+    span.textContent = senderName
+    messages.appendChild(item);
+    messages.appendChild(span);
+    window.scrollTo(0, document.body.scrollHeight);
+  });
+</script>
+
+</html>

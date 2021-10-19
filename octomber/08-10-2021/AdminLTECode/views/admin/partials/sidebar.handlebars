@@ -15,7 +15,7 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Hiren Limbasiya</a>
+                <a href="/admin/dashboard" class="d-block">Hiren Limbasiya</a>
             </div>
         </div>
 
@@ -46,35 +46,71 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="./index.html" class="nav-link">
+                            <a href="/admin/addproducts" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Products</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index2.html" class="nav-link active">
+                            <a href="showallusers" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v2</p>
+                                <p>Show All Users</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
+                            <a href="/admin/changepassword" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Dashboard v3</p>
+                                <p>Change Password</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="pages/widgets.html" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                <li class="nav-item menu-open">
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Widgets
-                            <span class="right badge badge-danger">New</span>
+                            Category
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/category/add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/category/display" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Display Category</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-
+                 <li class="nav-item menu-open">
+                    <a href="#" class="nav-link active">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Sub-Category
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/subcategory/add" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Sub-Category</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/subcategory/display" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Display Sub-Category</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                  <li class="nav-item">
                    <a href="/admin/logout" class="btn btn-primary">Logout</a>
                 </li>

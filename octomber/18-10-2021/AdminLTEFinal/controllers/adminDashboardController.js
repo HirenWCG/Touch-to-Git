@@ -25,16 +25,13 @@ function postAdminLogin(req, res) {
           adminmsg: "You are Not Admin",
         });
       } else {
-        // console.log("hi not null");
         req.session.admin = data._id;
-        // req.flash("success", "Welcome!!");
         res.redirect("/admin/dashboard");
       }
     })
     .catch((err) => {
       throw err;
     });
-  // res.render("admin/adminlogin");
 }
 
 function getAdminLogin(req, res) {

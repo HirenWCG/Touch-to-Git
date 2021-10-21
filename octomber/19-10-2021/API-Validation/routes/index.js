@@ -22,7 +22,7 @@ router.post(
       .withMessage("Email is invalid.")
       .isLength({ min: 10 })
       .withMessage("Email should be atleast 10 characters long..."),
-    check("number")
+    check("mobileNumber")
       .not()
       .isEmpty()
       .withMessage("Phone number is necessary...")
@@ -41,15 +41,21 @@ router.post(
     let errs = {};
     for (let err of errors1) {
       if (errs[err.param]) {
-        errs[err.param].push(err.msg);
+        // errs[err.param].push(err.msg);
       } else {
         errs[err.param] = [];
         errs[err.param].push(err.msg);
       }
     }
 
+    let obj = {}
+    for(let item of errors1){
+      
+    }
+
     if (!!errs) {
-      res.json(errs);
+      res.send(errs);
+      // console.log(errors1);
     } else {
       res.send("Registration Succesfully...");
     }

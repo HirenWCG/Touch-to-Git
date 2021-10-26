@@ -16,28 +16,21 @@
             <input type="text" name="city_name" value="{{mydata.city_name}}" class="form-control"
               placeholder="Enter City name" required />
           </div>
-          <!-- /.input group -->
         </div>
-        <!-- /.form group -->
         <div class="form-group">
           <label>Select State</label>
-          {{!-- {{state_array}} --}}
           <div class="input-group">
             <select class="form-control select2bs4" style="width: 100%;" name="_state">
               {{#each state_array}}
-              <option value="{{_id}}">{{state_name}}</option>
+              <option value='{{_id}}' {{#compare (toString ../mydata._state) '==' (toString _id)}}selected{{/compare}}>
+                {{state_name}}</option>
               {{/each}}
             </select>
           </div>
-          <!-- /.input group -->
         </div>
-        <!-- /.form group -->
 
         <input class="btn btn-success" type="submit" value="Edit City" />
       </div>
-      <!-- /.card-body -->
     </div>
-    <!-- /.card -->
-
   </form>
 </div>

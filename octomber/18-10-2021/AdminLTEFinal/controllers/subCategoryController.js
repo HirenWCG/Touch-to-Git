@@ -29,7 +29,6 @@ function subEditCategory(req, res) {
 function postSubEditCategory(req, res) {
   if (req.session.admin) {
     let a = req.params.id;
-    // console.log("aaaaaaaaaaaaaaaaaaaaaa" + a);
     let b = req.body.editCategory;
     subCategory
       .findByIdAndUpdate(a, { subCategoryName: b })

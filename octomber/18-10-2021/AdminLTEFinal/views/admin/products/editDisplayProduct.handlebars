@@ -27,11 +27,10 @@
 
           <select class="form-control custom-select" name="category" id="category-dropdown">
             <option selected="" disabled="">Select Category</option>
-            {{#each categoryData}}
-            <option value="{{_id}}">{{categoryName}}</option>
-            {{/each}}
+          {{#each categoryData}}
+                <option value='{{_id}}' {{#compare (toString ../subcategory_array._category) '==' (toString _id)}}selected{{/compare}}>{{categoryName}}</option>
+              {{/each}}
           </select>
-
         </div>
         <div class="form-group">
           <label for="inputStatus">Select Product Sub-Category</label>
@@ -58,9 +57,13 @@
           url: "/admin/subcategories/"+id,
           type: "GET",
           success: function (result) {
+            alert('hi')
+            console.log("result", result);
             $("#sub-category-dropdown").html('');
+            console.log("result type is here", result.type);
             if(result.type =='success') {
-              let html = '<option selected="" disabled="">Select Sub-Category</option>';              
+              let html = '<option selected="" disabled="">Select Sub-Category</option>';   
+              console.log("all data here", result.data);          
               if(!!result.data) {
                 for(let subCat of result.data) {
                   html += '<option value="'+subCat._id+'">'+subCat.subCategoryName+'</option>' 

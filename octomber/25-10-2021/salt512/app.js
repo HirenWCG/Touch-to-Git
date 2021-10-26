@@ -1,67 +1,48 @@
 var createError = require("http-errors");
-const mongoose = require("mongoose");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const hbs = require("express-handlebars");
+const passport = require("passport");
+const MongoStore = require("connect-mongo");
 const session = require("express-session");
-const fileupload = require("express-fileupload");
 require("./database");
-const Handlebars = require("handlebars");
 
-let helpers = require("handlebars-helpers")({
-  Handlebars: Handlebars,
-});
-
-//routes
-var adminRouter = require("./routes/admin/admin");
+var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-var app = express();
 
-Handlebars.registerHelper("toString", function (str) {
-  if (str) {
-    return str.toString();
-  } else {
-    return str;
-  }
-});
+var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "handlebars");
-app.engine(
-  "handlebars",
-  hbs({
-    extname: "handlebars",
-    defaultLayout: "main",
-    helpers: helpers,
-
-    partialsDir: __dirname + "/views/partials/",
-  })
-);
+app.set("view engine", "hbs");
 
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use(
   session({
-    secret: "keyboardcat",
+    secret: "secret",
+    store: MongoStore.create({
+      mongoUrl: "mongodb://API:API@localhost:27017/API",
+    }),
     resave: true,
     saveUninitialized: true,
     cookie: {
-      maxAge: 1000 * 60 * 60,
-      httpOnly: true,
-      name: "Cookie",
-      keys: ["key1", "key2"],
+      maxAge: 60 * 60 * 60 * 60 * 60,
     },
   })
 );
-app.use(fileupload());
 
-app.use("/admin", adminRouter);
+app.use(passport.initialize());
+app.use(passport.session());
+
+require("./passportJS");
+
+app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler

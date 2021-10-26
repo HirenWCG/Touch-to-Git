@@ -58,14 +58,16 @@
           url: "/admin/subcategories/"+id,
           type: "GET",
           success: function (result) {
+            console.log(result);
             $("#sub-category-dropdown").html('');
             if(result.type =='success') {
-              let html = '<option selected="" disabled="">Select Sub-Category</option>';              
+              let html = '<option selected="" disabled="">Select Sub-Category</option>';           
               if(!!result.data) {
                 for(let subCat of result.data) {
                   html += '<option value="'+subCat._id+'">'+subCat.subCategoryName+'</option>' 
                 }
               }
+              console.log("all HTML is here",html)  
               $("#sub-category-dropdown").append(html);
             } else {
               alert(result.message)

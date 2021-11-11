@@ -61,10 +61,9 @@
             console.log(result);
             $("#sub-category-dropdown").html('');
             if(result.type =='success') {
-              let html = '<option selected="" disabled="">Select Sub-Category</option>';           
               if(!!result.data) {
                 for(let subCat of result.data) {
-                  html += '<option value="'+subCat._id+'">'+subCat.subCategoryName+'</option>' 
+                  let html = '<option value="'+subCat._id+'">'+subCat.subCategoryName+'</option>' 
                 }
               }
               console.log("all HTML is here",html)  

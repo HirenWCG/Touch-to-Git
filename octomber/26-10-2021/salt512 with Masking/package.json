@@ -18,6 +18,7 @@
     "inputmask": "^5.0.6",
     "mongoose": "^6.0.12",
     "morgan": "~1.9.1",
+    "node-url-shortener": "^2.0.0",
     "npm": "^8.1.1",
     "passport": "^0.5.0",
     "passport-local": "^1.0.0",

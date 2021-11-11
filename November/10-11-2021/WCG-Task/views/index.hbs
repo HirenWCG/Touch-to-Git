@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        .errClass {
+            border: 3px solid red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="col-md-5" style="margin: auto;">
+        <form method="POST" id="myform" enctype="multipart/form-data">
+            <div class="form-floating mb-3">
+                <input type="text" id="firstName" name="firstName" class="form-control" placeholder="name">
+                <label for="floatingInput">Enter First Name</label>
+                <div style="color: red; margin-top:3px" id="firstNameError"></div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input type="text" id="lastName" name="lastName" class="form-control" placeholder="name">
+                <label for="floatingInput">Enter Last Name</label>
+                <div style="color: red; margin-top:3px" id="lastNameError"></div>
+            </div>
+
+            <div class="form-floating mb-3">
+                <textarea type="text" id="address" name="address" class="form-control" placeholder="name"></textarea>
+                <label for="floatingInput">Enter Your Address</label>
+                <div style="color: red; margin-top:3px" id="addpressError"></div>
+            </div>
+            <label class="form-check-label" for="inlineRadio1">Chose Your Gender</label>
+            <div class="form-floating mb-3">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="gender" value="male" />
+                    <label class="form-check-label" for="inlineRadio1">Male</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="gender" id="gender" value="female" />
+                    <label class="form-check-label" for="inlineRadio2">Female</label>
+                </div>
+                <div style="color: red; margin-top:3px" id="genderError"></div>
+            </div>
+
+
+            <label class="form-check-label" for="inlineRadio1">Chose Your Hobbies</label>
+            <div class="form-floating mb-3">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="hobbies" id="hobbies" value="Cricket">
+                    <label class="form-check-label" for="inlineCheckbox1">Cricket</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="hobbies" id="hobbies" value="Football">
+                    <label class="form-check-label" for="inlineCheckbox2">Football</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="hobbies" id="hobbies" value="Hockey">
+                    <label class="form-check-label" for="inlineCheckbox2">Hockey</label>
+                </div>
+                <div style="color: red; margin-top:3px" id="hobbiesError"></div>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="file" class="form-control" id="image" name="image" placeholder="Enter Mobile Number">
+                <label for="floatingInput">Upload Images</label>
+                <div style="color: red;" id="imagesError"></div>
+            </div>
+            <div class="form-floating">
+                <button class="btn btn-primary" id="submitButton" style="margin-top: 15px;" type="submit">Add
+                    Recored</button>
+            </div>
+        </form>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script> 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script> 
+
+    <script>
+        $(document).ready(() => {
+            $("#myform").validate({
+
+                submitHandler: function (form) {
+                        var formData = new FormData();
+                    
+                    formData.append('image',$('#image')[0].files[0]);
+
+                    var hobbyss = [];
+                    $("input[type=checkbox]:checked").each(function (index, element) {
+                        hobbyss.push($(this).val());
+                    });
+
+                    let dataObject = {
+                        firstName: $('#firstName').val(),
+                        lastName: $('#lastName').val(),
+                        address: $('#address').val(),
+                        gender: $('#gender:checked').val(),
+                        hobbies: hobbyss
+                    };
+                    
+                    for(let key in dataObject) {
+                        formData.append(key, dataObject[key]);
+                    };
+                    $.ajax({
+                        url: "/submitData",
+                        type: "POST",
+                        data:  formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(data) {},
+                        error: function(e) {}          
+                    });
+                },
+
+                rules: {
+                    firstName: {
+                        required: true
+                    },
+                    lastName: {
+                        required: true
+                    },
+                    gender: {
+                        required: true
+                    },
+                    hobbies: {
+                        required: true
+                    },
+                    address: {
+                        required: true,
+                    },
+                    image: {
+                        required: true,
+                    },
+                },
+                messages: {
+                    firstName: {
+                        required: "Please Enter First Name."
+                    },
+                    lastName: {
+                        required: "Please Enter Last Name."
+                    },
+                    gender: {
+                        required: "Choose Your Gender."
+                    },
+                    hobbies: {
+                        required: "Choose Your Hobbies."
+                    },
+                    address: {
+                        required: "Address is required!"
+                    },
+                    image: {
+                        required: "Please Choose Image."
+                    },
+                },
+                highlight: function (element) {
+                    $(element).addClass("errClass");
+                },
+                unhighlight: function (element) {
+                    $(element).removeClass("errClass");
+                },
+                errorPlacement: function (error, element) {
+                    if (element.attr("id") == "firstName") {
+                        error.appendTo($('#firstNameError'));
+                    } else if (element.attr("id") == "lastName") {
+                        error.appendTo($('#lastNameError'));
+                    } else if (element.attr("id") == "gender") {
+                        error.appendTo($('#genderError'));
+                    } else if (element.attr("id") == "hobbies") {
+                        error.appendTo($('#hobbiesError'));
+                    } else if (element.attr("id") == "address") {
+                        error.appendTo($('#addpressError'));
+                    } else if (element.attr("id") == "image") {
+                        error.appendTo($("#imagesError"));
+                    }
+                }
+
+            });
+        });
+    </script>
+</body>
+
+</html>

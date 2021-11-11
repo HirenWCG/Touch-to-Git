@@ -1,0 +1,14 @@
+> db.empdetails.aggregate(
+...     [ 
+    { $match : { salary : 9000 } }
+,{
+
+} ]
+... ).pretty();
+
+{ emp_code : 1 , emp_name : 1, address : {
+    city : "$city",
+    state : "$comapnyaddress.state"
+} }
+
+db.empdetails.find({salary : 9000})

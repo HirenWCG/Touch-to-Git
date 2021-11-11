@@ -5,6 +5,10 @@ function encryption(pwd) {
   return saltedSha512(pwd, "SUPER-S@LT!");
 }
 
+function numberCleaner(number) {
+  return number.split("-").join("");
+}
+
 function userRegistration(req, res) {
   res.render("index");
 }
@@ -14,7 +18,7 @@ function postUserRegistration(req, res) {
     name: req.body.myname,
     username: req.body.username,
     email: req.body.email,
-    number: req.body.number,
+    number: numberCleaner(req.body.number),
     password: encryption(req.body.password),
   };
 

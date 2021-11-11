@@ -65,7 +65,7 @@ async function getUser(req, res) {
 }
 
 async function showUser(req, res) {
-  const response = await fetch("http://localhost:3000/get-user");
+  const response = await fetch("http://localhost:3030/get-user");
   const data = await response.json();
   res.render("showData", { data });
 }

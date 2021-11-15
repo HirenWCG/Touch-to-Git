@@ -1,5 +1,6 @@
 $(document).ready(() => {
   $("#clearRecord").hide();
+  // Runtime event-binding with editButton
   $(document)
     .off("click", ".editDetails")
     .on("click", ".editDetails", function () {
@@ -30,10 +31,14 @@ $(document).ready(() => {
             ).insertAfter("#image");
           }
         },
+        error: function (err) {
+          console.log(err);
+        },
       });
     });
 });
 
+// Data Clear Function with on Click Event
 $("#clearRecord").on("click", () => {
   $("#userimages").remove();
   $("input[type='checkbox']").attr("checked", false);
@@ -43,6 +48,7 @@ $("#clearRecord").on("click", () => {
   $(".addRecord").html("Add Records");
 });
 
+// Delete All Form Data
 $(document)
   .off("click", ".deleteButton")
   .on("click", ".deleteButton", function () {
@@ -57,9 +63,13 @@ $(document)
           $("." + data.result).remove();
         }
       },
+      error: function (err) {
+        console.log(err);
+      },
     });
   });
 
+// AJAX Form-Validation
 $("#form").validate({
   rules: {
     firstName: {
@@ -196,10 +206,14 @@ $("#form").validate({
           alert(result.message);
         }
       },
+      error: function (err) {
+        console.log(err);
+      },
     });
   },
 });
 
+//AJAX Order-Sorting Function
 $(document).on("click", ".orderSorting", function () {
   var sorting = {
     sortingId: $(this).attr("id"),
@@ -231,6 +245,9 @@ $(document).on("click", ".orderSorting", function () {
           }
         }
       }
+    },
+    error: function (err) {
+      console.log(err);
     },
   });
 });

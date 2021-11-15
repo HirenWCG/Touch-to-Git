@@ -37,7 +37,7 @@
             <label class="form-check-label" for="inlineRadio1">Chose Your Gender</label>
             <div class="form-floating mb-3">
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="gender" id="male" value="male"/>
+                    <input class="form-check-input" type="radio" name="gender" id="male" value="male" />
                     <label class="form-check-label" for="inlineRadio1">Male</label>
                 </div>
 
@@ -88,33 +88,49 @@
             </div>
         </form>
         <div class="form-floating">
-                <button class="btn btn-primary" formnovalidate="formnovalidate" id="clearRecord" style="margin-top: 15px;" type="submit">Clear
-                    Recored</button>
-            </div>
+            <button class="btn btn-primary" formnovalidate="formnovalidate" id="clearRecord" style="margin-top: 15px;"
+                type="submit">Clear
+                Recored</button>
+        </div>
     </div>
     <div class="container">
         <table id="table" class="table">
             <tr>
                 <th>Image</th>
-                <th><a class="label label-info orderSorting" sortingOrder="1" id="firstName" href="javascript:void(0)">Name</a></th>
-                <th><a class="label label-info orderSorting" sortingOrder="1" id="address" href="javascript:void(0)">Address</a></th>
-                <th><a class="label label-info orderSorting" sortingOrder="1" id="gender" href="javascript:void(0)">Gender</a></th>
+                <th><a class="label label-info orderSorting" sortingOrder="1" id="firstName"
+                        href="javascript:void(0)">Name</a></th>
+                <th><a class="label label-info orderSorting" sortingOrder="1" id="address"
+                        href="javascript:void(0)">Address</a></th>
+                <th><a class="label label-info orderSorting" sortingOrder="1" id="gender"
+                        href="javascript:void(0)">Gender</a></th>
                 <th>Action</th>
             </tr>
             <tbody id="tbody">
                 {{#each result}}
-                <tr class = "{{_id}}">
+                <tr class="{{_id}}">
                     <td><img src="/images/{{images}}" style="width: 100px;" /></td>
                     <td>{{firstName}}</td>
                     <td>{{address}}</td>
                     <td>{{gender}}</td>
-                    <td><button id="{{_id}}" class="btn btn-primary m-2 editDetails">Edit Details</button><button id="{{_id}}" class="btn btn-danger m-2 deleteButton">Delete
+                    <td><button id="{{_id}}" class="btn btn-primary m-2 editDetails">Edit Details</button><button
+                            id="{{_id}}" class="btn btn-danger m-2 deleteButton">Delete
                             Item</button></td>
                 </tr>
                 {{/each}}
             </tbody>
 
         </table>
+    </div>
+    <div class="d-flex flex-row-reverse container">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" value="1">1</a></li>
+                <li class="page-item"><a class="page-link" value="2">2</a></li>
+                <li class="page-item"><a class="page-link" value="3">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
     </div>
     <script src="/javascripts/jquery-3.6.0.js"></script>
     <script src="/javascripts/jquery.validate.min.js"></script>

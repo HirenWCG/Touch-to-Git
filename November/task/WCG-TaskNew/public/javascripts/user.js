@@ -1,10 +1,10 @@
 $(document).ready(() => {
   $("#clearRecord").hide();
   $(document)
-    .off("click", ".btn1")
-    .on("click", ".btn1", function () {
+    .off("click", ".editDetails")
+    .on("click", ".editDetails", function () {
       var userId = $(this).attr("id");
-      $(".btn1").attr("disabled", true);
+      $(".editDetails").attr("disabled", true);
       $.ajax({
         url: "/" + userId,
         type: "GET",
@@ -37,9 +37,9 @@ $(document).ready(() => {
 $("#clearRecord").on("click", () => {
   $("#userimages").remove();
   $("input[type='checkbox']").attr("checked", false);
-  $("#myform")[0].reset();
+  $("#form")[0].reset();
   $("#clearRecord").hide();
-  $(".btn1").attr("disabled", false);
+  $(".editDetails").attr("disabled", false);
   $(".addRecord").html("Add Records");
 });
 
@@ -60,7 +60,7 @@ $(document)
     });
   });
 
-$("#myform").validate({
+$("#form").validate({
   rules: {
     firstName: {
       required: true,
@@ -118,16 +118,30 @@ $("#myform").validate({
   },
 
   errorPlacement: function (error, element) {
-    error.appendTo($("#" + element.attr("id") + "Error"));
+    if (element.attr("id") == "firstName") {
+      error.appendTo($("#firstNameError"));
+    } else if (element.attr("id") == "lastName") {
+      error.appendTo($("#lastNameError"));
+    } else if (element.attr("id") == "address") {
+      error.appendTo($("#addressError"));
+    } else if (element.attr("name") == "gender") {
+      error.appendTo($("#genderError"));
+    } else if (element.attr("name") == "hobbies") {
+      error.appendTo($("#hobbiesError"));
+    } else if (element.attr("id") == "city") {
+      error.appendTo($("#cityError"));
+    } else if (element.attr("id") == "image") {
+      error.appendTo($("#imagesError"));
+    }
   },
 
   submitHandler: function (form) {
     var formData = new FormData();
     formData.append("image", $("#image")[0].files[0]);
 
-    let b = $(".addRecord").attr("id");
-    if (b != "submitButton") {
-      formData.append("_id", b);
+    let exsitsUserId = $(".addRecord").attr("id");
+    if (exsitsUserId != "submitButton") {
+      formData.append("_id", exsitsUserId);
     }
 
     var hobbies = [];
@@ -163,12 +177,8 @@ $("#myform").validate({
                                 <td>${result.result.firstName}</td>
                                 <td>${result.result.address}</td>
                                 <td>${result.result.gender}</td>
-                                <td><button id="${result.result._id}" class="btn btn-primary btn1 m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
+                                <td><button id="${result.result._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
                             </tr > `;
-
-            console.log(html);
-
-            //console.log($("#table").html());
             $("#tbody").append(html);
           }
         } else if (result.type == "update") {
@@ -178,13 +188,49 @@ $("#myform").validate({
                                 <td>${result.result.firstName}</td>
                                 <td>${result.result.address}</td>
                                 <td>${result.result.gender}</td>
-                                <td><button id="${result.result._id}" class="btn btn-primary btn1 m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
+                                <td><button id="${result.result._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
                             </tr > `;
           $("." + result.result._id).replaceWith(newUser);
+          $(".editDetails").attr("disabled", false);
         } else {
           alert(result.message);
         }
       },
     });
   },
+});
+
+$(document).on("click", ".orderSorting", function () {
+  var sorting = {
+    sortingId: $(this).attr("id"),
+    order: Number($(this).attr("sortingOrder")),
+  };
+  if (Number($(this).attr("sortingOrder")) == 1) {
+    $(this).attr("sortingOrder", -1);
+  } else {
+    $(this).attr("sortingOrder", 1);
+  }
+  $.ajax({
+    url: "/sort",
+    type: "POST",
+    data: sorting,
+    success: function (result) {
+      if (result.type == "success") {
+        if (result.result) {
+          let html;
+          $("#tbody").empty();
+          for (let item of result.result) {
+            html = `<tr class = "${item._id}">
+                <td><img src="/images/${item.images}" style="width: 100px;" /></td>
+                <td>${item.firstName}</td>
+                <td>${item.address}</td>
+                <td>${item.gender}</td>
+                <td><button id="${item._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
+            </tr> `;
+            $("#tbody").append(html);
+          }
+        }
+      }
+    },
+  });
 });

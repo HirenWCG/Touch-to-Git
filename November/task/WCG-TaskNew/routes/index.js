@@ -27,22 +27,20 @@ router.get("/", async function (req, res, next) {
 
 router.post("/", imageUpload.single("image"), async (req, res) => {
   try {
-    console.log(req.body);
+    let splitHobbiesArray = req.body.hobbies.split(",");
+    let userData = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      address: req.body.address,
+      gender: req.body.gender,
+      hobbies: splitHobbiesArray,
+      city: req.body.city,
+      images: req.body.images,
+    };
     if (req.body._id) {
-      let splitHobbiesArray = req.body.hobbies.split(",");
-      let userData = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        address: req.body.address,
-        gender: req.body.gender,
-        hobbies: splitHobbiesArray,
-        city: req.body.city,
-        images: req.body.images,
-      };
       let data = await userModel.findByIdAndUpdate(req.body._id, userData, {
         new: true,
       });
-      console.log("new data-------------------", data);
       if (data) {
         res.send({
           type: "update",
@@ -52,17 +50,6 @@ router.post("/", imageUpload.single("image"), async (req, res) => {
         console.log("data not found...");
       }
     } else {
-      let splitHobbiesArray = req.body.hobbies.split(",");
-      let userData = {
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        address: req.body.address,
-        gender: req.body.gender,
-        hobbies: splitHobbiesArray,
-        city: req.body.city,
-        images: req.body.images,
-      };
-      console.log("Hiren", userData);
       let result = await userModel(userData).save();
       if (result) {
         res.send({
@@ -71,6 +58,24 @@ router.post("/", imageUpload.single("image"), async (req, res) => {
         });
         console.log("register Succesfully...");
       }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/sort", async (req, res) => {
+  console.log(req.body);
+  try {
+    let sort = {};
+    sort[req.body.sortingId] = req.body.order;
+    let sortingData = await userModel.find({}).sort(sort);
+    console.log(sortingData);
+    if (sortingData) {
+      res.send({
+        type: "success",
+        result: sortingData,
+      });
     }
   } catch (error) {
     console.log(error);

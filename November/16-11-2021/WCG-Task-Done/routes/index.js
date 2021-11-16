@@ -11,7 +11,7 @@ const imageStorage = multer.diskStorage({
   },
 });
 
-// Set images limits
+// Set images filesize
 const imageUpload = multer({
   storage: imageStorage,
   limits: {
@@ -22,10 +22,12 @@ const imageUpload = multer({
 // GET home page.
 router.get("/", async function (req, res, next) {
   try {
-    let result = await userModel.find();
+    let result = await userModel.find().sort({ _id: -1 }).skip(0).limit(5);
+    let data = await userModel.find({}).count();
+    console.log("Count", data);
     res.render("index", { result: result });
   } catch (error) {
-    res.send({ type: "error", error });
+    res.send({ type: "error", message: "data not found" });
   }
 });
 
@@ -45,9 +47,7 @@ router.post("/", imageUpload.single("image"), async (req, res) => {
 
     // if required for edit user data
     if (req.body._id) {
-      let data = await userModel.findByIdAndUpdate(req.body._id, userData, {
-        new: true,
-      });
+      let data = await userModel.findByIdAndUpdate(req.body._id, userData);
       if (data) {
         res.send({
           type: "update",
@@ -68,24 +68,40 @@ router.post("/", imageUpload.single("image"), async (req, res) => {
       }
     }
   } catch (error) {
-    res.send({ type: "error", error });
+    res.send({ type: "error", message: "data not found" });
   }
 });
 
 // Data-Sorting Route
-router.post("/sort", async (req, res) => {
+router.post("/sorting-pagination", async (req, res) => {
   try {
-    let sort = {};
-    sort[req.body.sortingId] = req.body.order;
-    let sortingData = await userModel.find({}).sort(sort);
-    if (sortingData) {
+    var sortingOrder;
+    var sortingParameter;
+    var skip = 0;
+
+    if (req.body.type == "sorting") {
+      sortingParameter = req.body.sortingId;
+      sortingOrder = req.body.order;
+    }
+
+    if (req.body.type == "pagination") {
+      skip = 5 * (req.body.page - 1);
+      sortingOrder = req.body.sortingOrder;
+      sortingParameter = req.body.sortingParameter;
+    }
+
+    var sort = {};
+    sort[sortingParameter] = sortingOrder;
+
+    let data = await userModel.find({}).sort(sort).skip(skip).limit(5);
+    if (data) {
       res.send({
         type: "success",
-        result: sortingData,
+        result: data,
       });
     }
   } catch (error) {
-    res.send({ type: "error", error });
+    res.send({ type: "error", message: "data not found" });
   }
 });
 
@@ -102,12 +118,12 @@ router.get("/:id", async (req, res) => {
       res.send({ type: "error", message: "data not found" });
     }
   } catch (error) {
-    res.send({ type: "error", error });
+    res.send({ type: "error", message: "data not found" });
   }
 });
 
 // Delete Route, Data delete with userId
-router.get("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
   try {
     let userId = req.params.id;
     let data = await userModel.remove({ _id: userId });
@@ -120,7 +136,7 @@ router.get("/delete/:id", async (req, res) => {
       res.send({ type: "error", message: "data not found" });
     }
   } catch (error) {
-    res.send({ type: "error", error });
+    res.send({ type: "error", message: "data not found" });
   }
 });
 

@@ -83,10 +83,21 @@
                     Recored</button>
             </div>
         </form>
-        <div class="form-floating">
+        <div class="form-floating mb-3">
             <button class="btn btn-primary" formnovalidate="formnovalidate" id="clearRecord" style="margin-top: 15px;"
                 type="submit">Clear
                 Recored</button>
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control input" id="input" placeholder="Search Here..." aria-label="Recipient's username"
+                aria-describedby="basic-addon2">
+            <select id="gender2" name="gender2">
+                <option value="">All</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <button class="btn btn-success search" id="search">search</button>
+            <button class="btn btn-danger clearSearch" id="search">clear</button>
         </div>
     </div>
     <div class="container">
@@ -120,11 +131,11 @@
     <div class="d-flex flex-row-reverse container">
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item"><a class="page-link paginationValue" href="">Previous</a></li>
-                <li class="page-item"><a class="page-link paginationValue" value="1">1</a></li>
-                <li class="page-item"><a class="page-link paginationValue" value="2">2</a></li>
-                <li class="page-item"><a class="page-link paginationValue" value="3">3</a></li>
-                <li class="page-item"><a class="page-link paginationValue" href="">Next</a></li>
+                {{!-- <li class="page-item"><a class="page-link paginationValue" href="">Previous</a></li> --}}
+                {{#each pages}}
+                <li class="page-item"><a class="page-link paginationValue" value="{{this}}">{{this}}</a></li>
+                {{/each}}
+                {{!-- <li class="page-item"><a class="page-link paginationValue" href="">Next</a></li> --}}
             </ul>
         </nav>
     </div>

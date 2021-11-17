@@ -1,5 +1,7 @@
-var sortingOrder = -1;
-var sortingParameter = "_id";
+var sortingOrder;
+var sortingParameter;
+var pageNumber;
+var flag;
 
 $(document).ready(() => {
   $("#clearRecord").hide();
@@ -47,14 +49,19 @@ $(document).ready(() => {
   $(document)
     .off("click", ".paginationValue")
     .on("click", ".paginationValue", function () {
+      console.log("flag", flag);
+      pageNumber = $(this).attr("value");
       let pageObj = {
         type: "pagination",
         page: $(this).attr("value"),
-        sortingOrder: sortingOrder,
-        sortingParameter: sortingParameter,
+        order: sortingOrder,
+        sortingId: sortingParameter,
+        searchTxt: $(".input").val(),
+        searchGender: $("#gender2").val(),
+        flag: flag,
       };
       $.ajax({
-        url: "/sorting-pagination",
+        url: "/users",
         type: "POST",
         data: pageObj,
         success: function (data) {
@@ -231,15 +238,18 @@ $("#user").validate({
       success: function (result) {
         if (result.type == "success") {
           if (result.result) {
-            let html = `  
-                                <tr class = "${result.result._id}">
-                                <td><img src="/images/${result.result.images}" style="width: 100px;" /></td>
-                                <td>${result.result.firstName}</td>
-                                <td>${result.result.address}</td>
-                                <td>${result.result.gender}</td>
-                                <td><button id="${result.result._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
+            $("#tbody").empty();
+            for (item of result.result) {
+              let html = `  
+                                <tr class = "${item._id}">
+                                <td><img src="/images/${item.images}" style="width: 100px;" /></td>
+                                <td>${item.firstName}</td>
+                                <td>${item.address}</td>
+                                <td>${item.gender}</td>
+                                <td><button id="${item._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
                             </tr > `;
-            $("#tbody").append(html);
+              $("#tbody").append(html);
+            }
           }
         } else if (result.type == "update") {
           let newUser = `  
@@ -259,6 +269,7 @@ $("#user").validate({
         if (result.type == "error") {
           console.log(result.message);
         }
+        $("#user")[0].reset();
       },
       error: function (err) {
         console.log(err);
@@ -282,7 +293,7 @@ $(document).on("click", ".orderSorting", function () {
     $(this).attr("sortingOrder", 1);
   }
   $.ajax({
-    url: "/sorting-pagination",
+    url: "/users",
     type: "POST",
     data: sorting,
     success: function (result) {
@@ -303,6 +314,89 @@ $(document).on("click", ".orderSorting", function () {
         }
       }
       if (result.type == "error") {
+        console.log(result.message);
+      }
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
+});
+
+$(".search").click(function () {
+  flag = "true";
+  pageNumber = 1;
+  let searchingObj = {
+    searchTxt: $(".input").val(),
+    searchGender: $("#gender2").val(),
+    flag: flag,
+  };
+  $.ajax({
+    url: "/users",
+    type: "POST",
+    data: searchingObj,
+    success: function (result) {
+      if (result.type == "success") {
+        if (result.result) {
+          let html;
+          $("#tbody").empty();
+          for (let item of result.result) {
+            html = `<tr class = "${item._id}">
+                <td><img src="/images/${item.images}" style="width: 100px;" /></td>
+                <td>${item.firstName}</td>
+                <td>${item.address}</td>
+                <td>${item.gender}</td>
+                <td><button id="${item._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
+            </tr> `;
+            $("#tbody").append(html);
+          }
+          $(".pagination").empty();
+          console.log(result.page);
+          for (i = 1; i <= result.page; i++) {
+            let page = `<li class="page-item"><a class="page-link paginationValue" value="${i}">${i}</a></li>`;
+            $(".pagination").append(page);
+          }
+        }
+      } else {
+        console.log(result.message);
+      }
+    },
+    error: function (err) {
+      console.log(err);
+    },
+  });
+});
+
+$(".clearSearch").click(function () {
+  $("#input").val("");
+  $("#gender2").val("");
+
+  $.ajax({
+    url: "/users",
+    type: "POST",
+    success: function (result) {
+      if (result.type == "success") {
+        if (result.result) {
+          let html;
+          $("#tbody").empty();
+          for (let item of result.result) {
+            html = `<tr class = "${item._id}">
+                <td><img src="/images/${item.images}" style="width: 100px;" /></td>
+                <td>${item.firstName}</td>
+                <td>${item.address}</td>
+                <td>${item.gender}</td>
+                <td><button id="${item._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
+            </tr> `;
+            $("#tbody").append(html);
+          }
+          $(".pagination").empty();
+          console.log(result.page);
+          for (i = 1; i <= result.page; i++) {
+            let page = `<li class="page-item"><a class="page-link paginationValue" value="${i}">${i}</a></li>`;
+            $(".pagination").append(page);
+          }
+        }
+      } else {
         console.log(result.message);
       }
     },

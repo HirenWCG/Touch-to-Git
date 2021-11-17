@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const multer = require("multer");
 const userModel = require("../models/userModel");
-
+var clearPage;
 // File or Photos upload using Multer
 const imageStorage = multer.diskStorage({
   destination: "public/images",
@@ -22,10 +22,19 @@ const imageUpload = multer({
 // GET home page.
 router.get("/", async function (req, res, next) {
   try {
-    let result = await userModel.find().sort({ _id: -1 }).skip(0).limit(5);
-    let data = await userModel.find({}).count();
-    console.log("Count", data);
-    res.render("index", { result: result });
+    let result = await userModel
+      .find()
+      .sort({ _id: -1 })
+      .skip(0)
+      .limit(3)
+      .lean();
+    let userCounts = await userModel.countDocuments({});
+    let pages = [];
+    clearPage = Math.ceil(userCounts / 3);
+    for (i = 1; i <= Math.ceil(userCounts / 3); i++) {
+      pages[i] = i;
+    }
+    res.render("index", { result: result, pages });
   } catch (error) {
     res.send({ type: "error", message: "data not found" });
   }
@@ -57,7 +66,9 @@ router.post("/", imageUpload.single("image"), async (req, res) => {
         res.send({ type: "error", message: "data not found" });
       }
     } else {
-      let result = await userModel(userData).save();
+      console.log("IM HERE");
+      await userModel(userData).save();
+      let result = await userModel.find().sort({ _id: -1 }).limit(3);
       if (result) {
         res.send({
           type: "success",
@@ -73,33 +84,55 @@ router.post("/", imageUpload.single("image"), async (req, res) => {
 });
 
 // Data-Sorting Route
-router.post("/sorting-pagination", async (req, res) => {
+router.post("/users", async (req, res) => {
   try {
-    var sortingOrder;
-    var sortingParameter;
-    var skip = 0;
+    let sortingOrder = req.body.order ? req.body.order : -1;
+    let sortingParameter = req.body.sortingId ? req.body.sortingId : "_id";
+    let page = req.body.page ? req.body.page : 1;
+    let skip = 3 * (page - 1);
+    let sort = { [sortingParameter]: sortingOrder };
 
-    if (req.body.type == "sorting") {
-      sortingParameter = req.body.sortingId;
-      sortingOrder = req.body.order;
+    let condition = {};
+
+    if (req.body.searchTxt) {
+      condition = {
+        $or: [
+          {
+            firstName: {
+              $regex: req.body.searchTxt,
+              $options: "i",
+            },
+          },
+          {
+            lastName: {
+              $regex: req.body.searchTxt,
+              $options: "i",
+            },
+          },
+          {
+            address: {
+              $regex: req.body.searchTxt,
+              $options: "i",
+            },
+          },
+        ],
+      };
     }
 
-    if (req.body.type == "pagination") {
-      skip = 5 * (req.body.page - 1);
-      sortingOrder = req.body.sortingOrder;
-      sortingParameter = req.body.sortingParameter;
+    if (req.body.searchGender) {
+      condition.gender = req.body.searchGender;
     }
-
-    var sort = {};
-    sort[sortingParameter] = sortingOrder;
-
-    let data = await userModel.find({}).sort(sort).skip(skip).limit(5);
-    if (data) {
-      res.send({
-        type: "success",
-        result: data,
-      });
-    }
+    console.log(JSON.stringify(condition));
+    res.send({
+      type: "success",
+      result: await userModel
+        .find(condition)
+        .sort(sort)
+        .skip(skip)
+        .limit(3)
+        .lean(),
+      page: Math.ceil((await userModel.countDocuments(condition)) / 3),
+    });
   } catch (error) {
     res.send({ type: "error", message: "data not found" });
   }
@@ -125,12 +158,11 @@ router.get("/:id", async (req, res) => {
 // Delete Route, Data delete with userId
 router.delete("/delete/:id", async (req, res) => {
   try {
-    let userId = req.params.id;
-    let data = await userModel.remove({ _id: userId });
+    let data = await userModel.remove({ _id: req.params.id });
     if (data) {
       res.send({
         type: "success",
-        result: userId,
+        result: req.params.id,
       });
     } else {
       res.send({ type: "error", message: "data not found" });

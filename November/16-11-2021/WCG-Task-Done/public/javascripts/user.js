@@ -114,6 +114,7 @@ $(document)
       success: function (data) {
         if (data.type == "success") {
           $("." + data.result).remove();
+          showData({});
         }
 
         if (data.type == "error") {
@@ -286,6 +287,8 @@ $(document).on("click", ".orderSorting", function () {
     sortingId: $(this).attr("id"),
     order: Number($(this).attr("sortingOrder")),
     type: "sorting",
+    searchTxt: $(".input").val(),
+    searchGender: $("#gender2").val(),
   };
   if (Number($(this).attr("sortingOrder")) == 1) {
     $(this).attr("sortingOrder", -1);
@@ -323,6 +326,7 @@ $(document).on("click", ".orderSorting", function () {
   });
 });
 
+// Searching Function
 $(".search").click(function () {
   flag = "true";
   pageNumber = 1;
@@ -336,30 +340,7 @@ $(".search").click(function () {
     type: "POST",
     data: searchingObj,
     success: function (result) {
-      if (result.type == "success") {
-        if (result.result) {
-          let html;
-          $("#tbody").empty();
-          for (let item of result.result) {
-            html = `<tr class = "${item._id}">
-                <td><img src="/images/${item.images}" style="width: 100px;" /></td>
-                <td>${item.firstName}</td>
-                <td>${item.address}</td>
-                <td>${item.gender}</td>
-                <td><button id="${item._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
-            </tr> `;
-            $("#tbody").append(html);
-          }
-          $(".pagination").empty();
-          console.log(result.page);
-          for (i = 1; i <= result.page; i++) {
-            let page = `<li class="page-item"><a class="page-link paginationValue" value="${i}">${i}</a></li>`;
-            $(".pagination").append(page);
-          }
-        }
-      } else {
-        console.log(result.message);
-      }
+      showData(result);
     },
     error: function (err) {
       console.log(err);
@@ -367,6 +348,7 @@ $(".search").click(function () {
   });
 });
 
+// Clear Searching Function
 $(".clearSearch").click(function () {
   $("#input").val("");
   $("#gender2").val("");
@@ -375,31 +357,58 @@ $(".clearSearch").click(function () {
     url: "/users",
     type: "POST",
     success: function (result) {
-      if (result.type == "success") {
-        if (result.result) {
-          let html;
-          $("#tbody").empty();
-          for (let item of result.result) {
-            html = `<tr class = "${item._id}">
-                <td><img src="/images/${item.images}" style="width: 100px;" /></td>
-                <td>${item.firstName}</td>
-                <td>${item.address}</td>
-                <td>${item.gender}</td>
-                <td><button id="${item._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
-            </tr> `;
-            $("#tbody").append(html);
-          }
-          $(".pagination").empty();
-          console.log(result.page);
-          for (i = 1; i <= result.page; i++) {
-            let page = `<li class="page-item"><a class="page-link paginationValue" value="${i}">${i}</a></li>`;
-            $(".pagination").append(page);
-          }
-        }
-      } else {
-        console.log(result.message);
-      }
+      showData(result);
     },
+    error: function (err) {
+      console.log(err);
+    },
+  });
+});
+
+// Defualt Function for Searching and clearSearching
+function showData(result) {
+  if (result.type == "success") {
+    if (result.result) {
+      let html;
+      $("#tbody").empty();
+      for (let item of result.result) {
+        html = `<tr class = "${item._id}">
+            <td><img src="/images/${item.images}" style="width: 100px;" /></td>
+            <td>${item.firstName}</td>
+            <td>${item.address}</td>
+            <td>${item.gender}</td>
+            <td><button id="${item._id}" class="btn btn-primary editDetails m-2">Edit Details</button><button class="btn btn-danger m-2">Delete Item</button></td>
+        </tr> `;
+        $("#tbody").append(html);
+      }
+      $(".pagination").empty();
+      console.log(result.page);
+      for (i = 1; i <= result.page; i++) {
+        let page = `<li class="page-item"><a class="page-link paginationValue" value="${i}">${i}</a></li>`;
+        $(".pagination").append(page);
+      }
+    }
+  } else {
+    console.log(result.message);
+  }
+}
+
+$(".export").click(function () {
+  let exportData = {
+    searchTxt: $(".input").val(),
+    searchGender: $("#gender2").val(),
+    sortingOrder: $(".orderSorting").attr("sortingOrder"),
+    sortingParameter: $(".orderSorting").attr("id"),
+    export: true,
+  };
+
+  console.log(exportData);
+
+  $.ajax({
+    url: "/users",
+    type: "POST",
+    data: exportData,
+    success: function (result) {},
     error: function (err) {
       console.log(err);
     },

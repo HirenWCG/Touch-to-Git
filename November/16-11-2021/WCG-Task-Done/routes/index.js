@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 const multer = require("multer");
 const userModel = require("../models/userModel");
-var clearPage;
+const { Parser } = require("json2csv");
 // File or Photos upload using Multer
 const imageStorage = multer.diskStorage({
   destination: "public/images",
@@ -56,7 +56,9 @@ router.post("/", imageUpload.single("image"), async (req, res) => {
 
     // if required for edit user data
     if (req.body._id) {
-      let data = await userModel.findByIdAndUpdate(req.body._id, userData);
+      let data = await userModel.findByIdAndUpdate(req.body._id, userData, {
+        new: true,
+      });
       if (data) {
         res.send({
           type: "update",
@@ -122,7 +124,40 @@ router.post("/users", async (req, res) => {
     if (req.body.searchGender) {
       condition.gender = req.body.searchGender;
     }
-    console.log(JSON.stringify(condition));
+
+    if (req.body.export) {
+      let exportData = await userModel
+        .find(condition, {
+          firstName: 1,
+          lastName: 1,
+          address: 1,
+          gender: 1,
+          state: 1,
+          hobbies: 1,
+        })
+        .sort(sort)
+        .lean();
+
+      for (let data of exportData) {
+        data["hobbies"] = data["hobbies"].join(",");
+      }
+
+      const field = [
+        { label: "First Name", value: "firstName" },
+        { label: "Last Name", value: "lastName" },
+        { label: "Address", value: "address" },
+        { label: "State", value: "state" },
+        { label: "Gender", value: "gender" },
+        { label: "Hobbies", value: "hobbies" },
+      ];
+
+      const json2csvParser = new Parser(field);
+      const csv = json2csvParser.parse(exportData);
+
+      console.log("aaaaaaaaaaaaaaaaaa", csv);
+    }
+    // console.log(JSON.stringify(condition));
+
     res.send({
       type: "success",
       result: await userModel

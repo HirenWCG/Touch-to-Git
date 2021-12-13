@@ -3,6 +3,8 @@ var router = express.Router();
 const multer = require("multer");
 const userModel = require("../models/userModel");
 const { Parser } = require("json2csv");
+const moment = require("moment");
+const fs = require("fs");
 // File or Photos upload using Multer
 const imageStorage = multer.diskStorage({
   destination: "public/images",
@@ -142,7 +144,7 @@ router.post("/users", async (req, res) => {
         data["hobbies"] = data["hobbies"].join(",");
       }
 
-      const field = [
+      const fields = [
         { label: "First Name", value: "firstName" },
         { label: "Last Name", value: "lastName" },
         { label: "Address", value: "address" },
@@ -151,10 +153,20 @@ router.post("/users", async (req, res) => {
         { label: "Hobbies", value: "hobbies" },
       ];
 
-      const json2csvParser = new Parser(field);
+      const json2csvParser = new Parser(fields);
       const csv = json2csvParser.parse(exportData);
 
-      console.log("aaaaaaaaaaaaaaaaaa", csv);
+      console.log(csv);
+
+      let fileName =
+        "exportData-" + moment().format("YYYY-MM-DD hh:mm") + ".csv";
+      fs.writeFile("public/csvFiles/" + fileName, csv, (err, data) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log("File Created...");
+        console.log(data);
+      });
     }
     // console.log(JSON.stringify(condition));
 

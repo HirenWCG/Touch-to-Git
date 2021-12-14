@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const userModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const { check } = require("express-validator");
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -23,44 +24,75 @@ function authJWT(req, res, next) {
   });
 }
 
+router.get("/getUsers", async (req, res) => {
+  let users = await userModel.find();
+  res.json({
+    type: "success",
+    statusCode: 200,
+    users: users,
+    // loggedInUser: req.user.userEmail,
+  });
+});
+
 router.get("/register", authJWT, async (req, res) => {
   try {
-    let users = await userModel.find({}).lean();
-    console.log(users);
-    res.render("index", { users: users });
+    // let users = await userModel.find({}).lean();
+    // console.log(users);
+    res.render("index");
   } catch (error) {
     console.log(error);
   }
 });
 
-router.post("/register", authJWT, async (req, res) => {
-  console.log(req.body);
-  const item = {
-    name: req.body.name,
-    email: req.body.email,
-    mobileNumber: req.body.number,
-    password: req.body.password,
-  };
-  console.log("this is item", item);
-  let user = await userModel.findOne({
-    $or: [{ email: req.body.email }, { mobileNumber: req.body.number }],
-  });
-  if (user) {
-    res.send({
-      type: "error",
-      message: "this email or mobile number already used...",
+router.post(
+  "/register",
+  [
+    check("email", "Email length should be 10 to 30 characters")
+      .isEmail()
+      .isLength({ min: 10, max: 30 }),
+    check("name", "Name length should be 10 to 20 characters").isLength({
+      min: 2,
+      max: 20,
+    }),
+    check("number", "Mobile number should contains 10 digits").isLength({
+      min: 10,
+      max: 10,
+    }),
+    check("password", "Password length should be 8 to 10 characters").isLength({
+      min: 8,
+      max: 10,
+    }),
+  ],
+  authJWT,
+  async (req, res) => {
+    const item = {
+      name: req.body.name,
+      email: req.body.email,
+      mobileNumber: req.body.number,
+      password: req.body.password,
+    };
+    let user = await userModel.findOne({
+      $or: [{ email: req.body.email }, { mobileNumber: req.body.number }],
     });
-  } else {
-    let dataStore = userModel(item);
-    dataStore.save(function (err, result) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.json({ result: item });
-      }
-    });
+    if (user) {
+      res.send({
+        type: "error",
+        message: "this email or mobile number already used...",
+      });
+    } else {
+      let dataStore = userModel(item);
+      dataStore.save(async function (err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+          // let allUsers = await userModel.find({}).lean();
+          // console.log(allUsers);
+          res.json({ result: item });
+        }
+      });
+    }
   }
-});
+);
 
 router.get("/login", (req, res) => {
   res.render("login");
@@ -90,10 +122,6 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-});
-
-router.post("/profile", authJWT, (req, res) => {
-  res.send("im about page...");
 });
 
 module.exports = router;

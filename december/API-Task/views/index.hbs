@@ -42,109 +42,148 @@
             </div>
         </form>
     </div>
-    <div id="users">
-        {{#each users}}
-         <li>{{this.name}}</li>
-        {{/each}}
-    </div>
-</body>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        $(document).ready(() => {
-            $.validator.addMethod("pwcheck", function (value) {
-                return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
-                    && /[a-z]/.test(value) // has a lowercase letter
-                    && /\d/.test(value) // has a digit
-            });
+    <table id="example1" class="table table-bordered table-striped table-hover">
+        <thead>
 
-            $.validator.addMethod("nameCheck", function (value) {
+            <tr>
 
-                return /^[a-zA-Z]+$/.test(value)
-            });
+                <th><a class="label label-info name" id="name">Name</a> </th>
+                <th><a class="label label-info name" id="email">Email</a></th>
+                <th><a class="label label-info name" id="mobile">Mobile</a></th>
 
-            $.validator.addMethod("emailCheck", function (value) {
-                return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value) // consists of only these
-            });
+            </tr>
+        </thead>
+        <tbody id="users">
+        </tbody>
+        <tfoot>
+            <tr>
 
-            $("#myform").validate({
-                rules: {
-                    myname: {
-                        required: true,
-                        nameCheck: true
-                    },
-                    email: {
-                        required: true,
-                        emailCheck: true,
-                    },
-                    password: {
-                        required: true,
-                        pwcheck: true
-                    },
-                    number: {
-                        required: true,
-                    },
-                },
-                messages: {
-                    myname: {
-                        required: "Please Enter Name.",
-                        nameCheck: "Only Characters Allowed."
-                    },
-                    email: {
-                        required: "Please enter Address.",
-                        emailCheck: "Please enter a valid email address!",
-                        remote: "Email already in use!"
-                    },
-                    password: {
-                        required: "Please enter Password.",
-                        pwcheck: "The password does not meet the criteria!"
-                    },
-                    number:{
-                        required:"Please Enter Mobile Number!"
-                    },
-                },
-                highlight: function (element) {
-                    $(element).addClass("errClass");
-                },
-                unhighlight: function (element) {
-                    $(element).removeClass("errClass");
-                },
-                errorPlacement: function (error, element) {
-                    if (element.attr("id") == "myname") {
-                        error.appendTo($('#error1'));
-                    } else if (element.attr("id") == "email") {
-                        error.appendTo($('#error2'));
-                    } else if (element.attr("id") == "password") {
-                        error.appendTo($('#error3'));
-                    } else if (element.attr("id") == "number"){
-                        error.appendTo($("#error6"));
-                    }
-                },
-                
+                <th><a class="label label-info name" id="name">Name</a> </th>
+                <th><a class="label label-info name" id="email">Email</a></th>
+                <th><a class="label label-info name" id="mobile">Mobile</a></th>
+            </tr>
+            </tf </body>
+            <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+            <script>
+                $(document).ready(() => {
 
-                 submitHandler: function (form, event) {
-                    event.preventDefault();
-                    console.log("Hi");
-                    let dataObject = {
-                        name: $("#myname").val(),
-                        email: $("#email").val(),
-                        number: $("#number").val(),
-                        password: $("#password").val()
-                    };
-                    console.log(dataObject);
+
                     $.ajax({
-                        url: "/api/register",
-                        type: "POST",
-                        data: dataObject,
-                        success: function (result) {
-                            $("#users").append(result.result.name);
-                        }
+                        url: "/api/getUsers",
+                        method: "GET",
+                        success: function (response) {
+
+                            for (const user of response.users) {
+                                let userDataRow = `<tr>
+                                <td scope="col">${user.name}</td>
+                                <td scope="col">${user.email}</td>
+                                <td scope="col">${user.mobileNumber}</td>
+                                </tr>`;
+                                $("#users").append(userDataRow);
+                            }
+                        },
                     });
-            }
+
+                    $.validator.addMethod("pwcheck", function (value) {
+                        return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
+                            && /[a-z]/.test(value) // has a lowercase letter
+                            && /\d/.test(value) // has a digit
+                    });
+
+                    $.validator.addMethod("nameCheck", function (value) {
+
+                        return /^[a-zA-Z]+$/.test(value)
+                    });
+
+                    $.validator.addMethod("emailCheck", function (value) {
+                        return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value) // consists of only these
+                    });
+
+                    $("#myform").validate({
+                        rules: {
+                            myname: {
+                                required: true,
+                                nameCheck: true
+                            },
+                            email: {
+                                required: true,
+                                emailCheck: true,
+                            },
+                            password: {
+                                required: true,
+                                pwcheck: true
+                            },
+                            number: {
+                                required: true,
+                            },
+                        },
+                        messages: {
+                            myname: {
+                                required: "Please Enter Name.",
+                                nameCheck: "Only Characters Allowed."
+                            },
+                            email: {
+                                required: "Please enter Address.",
+                                emailCheck: "Please enter a valid email address!",
+                                remote: "Email already in use!"
+                            },
+                            password: {
+                                required: "Please enter Password.",
+                                pwcheck: "The password does not meet the criteria!"
+                            },
+                            number: {
+                                required: "Please Enter Mobile Number!"
+                            },
+                        },
+                        highlight: function (element) {
+                            $(element).addClass("errClass");
+                        },
+                        unhighlight: function (element) {
+                            $(element).removeClass("errClass");
+                        },
+                        errorPlacement: function (error, element) {
+                            if (element.attr("id") == "myname") {
+                                error.appendTo($('#error1'));
+                            } else if (element.attr("id") == "email") {
+                                error.appendTo($('#error2'));
+                            } else if (element.attr("id") == "password") {
+                                error.appendTo($('#error3'));
+                            } else if (element.attr("id") == "number") {
+                                error.appendTo($("#error6"));
+                            }
+                        },
 
 
-            });
-        });
-    </script>
+                        submitHandler: function (form, event) {
+                            event.preventDefault();
+                            console.log("Hi");
+                            let dataObject = {
+                                name: $("#myname").val(),
+                                email: $("#email").val(),
+                                number: $("#number").val(),
+                                password: $("#password").val()
+                            };
+
+                            $.ajax({
+                                url: "/api/register",
+                                type: "POST",
+                                data: dataObject,
+                                success: function (data) {
+                                            let userDataRow = `<tr>
+                                        <td scope="col">${data.result.name}</td>
+                                        <td scope="col">${data.result.email}</td>
+                                        <td scope="col">${data.result.mobileNumber}</td>
+                                        </tr>`;
+                                        $("#users").append(userDataRow);
+                                    
+                                }
+                            });
+                        }
+
+                    });
+                });
+            </script>
+
 </html>

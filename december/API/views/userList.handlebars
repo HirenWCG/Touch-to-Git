@@ -1,0 +1,86 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/jquery.validate.min.js"></script>
+    <script src="/javascripts/additional-methods.min.js"></script>
+    <script src="/javascripts/user.js"> </script>
+  </head>
+  <body>
+    <h3>Add User</h3>
+
+    <div class="container">
+      <form id="formid" method="POST">
+        <div class="name" id="nameid">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter Your Name.."
+          />
+        </div>
+        <br />
+
+        <div class="email" id="emailid">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter Your Email.."
+          />
+        </div><br />
+
+        <div class="mobile" id="mobileid">
+          <label for="mobile">Mobile</label>
+          <input
+            type="number"
+            name="mobile"
+            id="mobile"
+            placeholder="Enter Your Mobile.."
+          />
+        </div><br />
+
+        <div class="password" id="passwordid">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter Your Password.."
+          />
+        </div><br />
+
+        <input type="submit" value="Add User" />
+      </form>
+    </div><br />
+    <button id="logout" type="button">Logout</button>
+
+    <br /><br /><hr /><br /><br />
+    <h1>User List...</h1>
+
+    <table id="tableid">
+      <button class="btn-success csv" id="csv">Export</button><br /><br />
+      {{! import csv }}
+      <form method="POST" enctype="multipart/form-data" id="formcsv">
+        <input type="file" id="importFile" name="importFile" />
+        <button type="submit">Import Data</button>
+        </form>
+      <br/><br/>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile</th>
+      </tr>
+      {{#each user}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{email}}</td>
+          <td>{{mobile}}</td>
+        </tr>
+      {{/each}}
+
+    </table>
+  </body>
+</html>

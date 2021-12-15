@@ -40,6 +40,7 @@
             <div class="form-floating">
                 <button class="btn btn-primary" style="margin-top: 15px;" type="submit">Add User</button>
             </div>
+            
         </form>
     </div>
     <table id="example1" class="table table-bordered table-striped table-hover">
@@ -71,7 +72,7 @@
 
 
                     $.ajax({
-                        url: "/api/getUsers",
+                        url: "/getUsers",
                         method: "GET",
                         success: function (response) {
 
@@ -167,7 +168,7 @@
                             };
 
                             $.ajax({
-                                url: "/api/register",
+                                url: "/register",
                                 type: "POST",
                                 data: dataObject,
                                 success: function (data) {

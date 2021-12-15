@@ -17,7 +17,7 @@ function authJWT(req, res, next) {
   jwt.verify(token, privateKey, function (err, docs) {
     if (err) {
       // res.send({ message: "please login first..." });
-      res.redirect("/api/login");
+      res.redirect("/login");
     } else {
       next();
     }
@@ -28,7 +28,6 @@ router.get("/getUsers", async (req, res) => {
   let users = await userModel.find();
   res.json({
     type: "success",
-    statusCode: 200,
     users: users,
     // loggedInUser: req.user.userEmail,
   });
@@ -95,6 +94,17 @@ router.post(
 );
 
 router.get("/login", (req, res) => {
+  let token = req.cookies.token;
+  if (token) {
+    res.send({
+      type: "success",
+      login: true,
+      messaage: "login successfully",
+      token: token,
+      header: req.headers.cookie,
+      status: 200,
+    });
+  }
   res.render("login");
 });
 
@@ -112,7 +122,7 @@ router.post("/login", async (req, res) => {
       let token = await jwt.sign(params, privateKey, { expiresIn: "1000s" });
       res.cookie("token", token);
       if (data.password == req.body.password) {
-        res.redirect("/api/register");
+        res.redirect("/register");
       } else {
         res.send("password invalid...");
       }
@@ -124,4 +134,5 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get("/logout", async (req, res) => {});
 module.exports = router;

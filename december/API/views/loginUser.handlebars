@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+ <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/jquery.validate.min.js"></script>
+    <script src="/javascripts/additional-methods.min.js"></script>
+    <script src="./javascripts/user.js"> </script>
+  </head>
+  <body>
+    <h3>Login Here...</h3>
+    <div class="container">
+      <form id="loginForm" method="POST">
+        <div class="name" id="nameid">
+          <label for="name">User Name/Email/Mobile</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter Your Name/Email/Mobile.."
+          /><br />
+        </div><br><br>
+
+        <div class="password" id="passwordid">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter Your Password.."
+          /><br />
+        </div><br><br>
+
+        <input type="submit" value="Login" />
+      </form>
+    </div>
+
+  </body>
+</html>

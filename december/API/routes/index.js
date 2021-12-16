@@ -8,27 +8,18 @@ const multer = require("multer");
 const csvtojson = require("csvtojson");
 
 //require userAuth Model
-var userAuthModel = require("../models/userModel");
-const { count } = require("console");
+const userAuthModel = require("../models/userModel");
+const filesModel = require("../models/filesModel");
 
-//authentication function authJWT
-function authJWT(req, res, next) {
-  console.log("req cookie data", req.cookies.token);
-  console.log(typeof req.cookies);
-  let token;
-  if (req.cookies.token) {
-    token = req.cookies.token;
-  }
-  const privateKey = "erhvfmyoaswlbhrfmasuypolncasteif";
-  jwt.verify(token, privateKey, function (err, user) {
-    if (err) {
-      res.redirect("/loginUser");
-    } else {
-      console.log("logged-user", user);
-      next();
-    }
-  });
-}
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/importFile");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage: storage });
 
 // UI Router
 router.get("/", function (req, res, next) {
@@ -108,6 +99,8 @@ router.post("/api/login", async (req, res) => {
         //Token Key 32 Character
         var privateKey = "erhvfmyoaswlbhrfmasuypolncasteif";
         let params = {
+          userId: data._id,
+          name: data.name,
           email: data.email,
           mobile: data.mobile,
         };
@@ -202,43 +195,54 @@ router.get("/api/logout", async (req, res) => {
   }
 });
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/importFile");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
-});
-const upload = multer({ storage: storage });
-
-router.post("/api/import", upload.single("importFile"), async (req, res) => {
-  if (req.file) {
-    counter = 0;
-    const csvFilePath = req.file.destination + "/" + req.file.filename;
-    const jsonArray = await csvtojson().fromFile(csvFilePath);
-    if (jsonArray) {
-      for (let jsonData of jsonArray) {
-        let emailRegExp = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-        if (
-          emailRegExp.test(jsonData.email) == false ||
-          jsonData.mobile == "" ||
-          jsonData.name == ""
-        ) {
-          counter++;
+router.post(
+  "/api/import",
+  authJWT,
+  upload.single("importFile"),
+  async (req, res) => {
+    try {
+      if (req.file) {
+        let filesData = {
+          name: req.file.filename,
+          uploadedBy: req.user.userId,
+        };
+        let file = await filesModel.create(filesData);
+        // convert file csv to json
+        counter = 0;
+        const csvFilePath = req.file.destination + "/" + req.file.filename;
+        const jsonArray = await csvtojson().fromFile(csvFilePath);
+        console.log(jsonArray);
+        if (jsonArray) {
+          let firstRow = Object.keys(jsonArray[0]);
+          let secondRow = Object.values(jsonArray[0]);
+          res.send({
+            type: "success",
+            firstRow,
+            secondRow,
+            fileId: file._id,
+          });
         } else {
-          let user = await userAuthModel.findOne({ email: jsonData.email });
-          if (user) {
-            res.send({
-              type: "error",
-              messaage: "Already exist in Database",
-            });
-          } else {
-          }
+          res.send({
+            type: "error",
+            message: "No data found in CSV",
+          });
         }
+      } else if (req.body) {
+        // console.log(req.body);
+        // console.log(jsonArray);
+      } else {
+        res.send({
+          type: "error",
+          message: "File not uploaded",
+        });
       }
+    } catch (error) {
+      res.send({
+        type: "error",
+        message: "Unale to upload file",
+      });
     }
   }
-});
+);
 
 module.exports = router;

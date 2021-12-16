@@ -4,15 +4,18 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const { engine: exphbs } = require("express-handlebars");
-var mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+
 const {
   allowInsecurePrototypeAccess,
 } = require("@handlebars/allow-prototype-access");
 const _handlebars = require("handlebars");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+//global configurations
+global.config = require("./config/config.json");
+
+//global functions
+require("./helpers/global-functions");
 
 var app = express();
 
@@ -20,7 +23,7 @@ app.set("views", path.join(__dirname, "views"));
 app.engine(
   "handlebars",
   exphbs({
-    defaultLayout: false,
+    defaultLayout: "../layout",
     handlebars: allowInsecurePrototypeAccess(_handlebars),
   })
 );
@@ -42,40 +45,42 @@ else insert admin in userAuth model
 */
 async function isAdmin(value) {
   try {
-    var user = await userAuthModel.findOne({ email: "admin@admin.com" });
-    console.log("user...", user);
+    const user = await userAuthModel
+      .findOne({ email: config.default.user.email }, { _id: 1 })
+      .lean();
     // check if user is present in model or not
     if (user) {
       console.log("user is already exist");
     } else {
-      // created an array
-      const mydata = {
-        name: "Admin",
-        email: "admin@admin.com",
-        mobile: "1234567890",
-        password: "123456",
-      };
       // store data in db
-      var user = userAuthModel(mydata);
-      user.save();
+      await userAuthModel.create(config.default.user);
       console.log("user is inserted");
     }
   } catch (error) {
-    console.log(error);
+    console.log("Error while adding default user", error);
   }
 }
 
 // DB connection
 mongoose.Promise = global.Promise;
 mongoose
-  .connect("mongodb://test:test@localhost:27017/API")
+  .connect(
+    "mongodb://" +
+      config.mongoDB.user +
+      ":" +
+      config.mongoDB.pwd +
+      "@" +
+      config.mongoDB.host +
+      ":" +
+      config.mongoDB.port +
+      "/" +
+      config.mongoDB.db
+  )
   .then(() => console.log("Connection DB Open"))
   .then(isAdmin)
   .catch((err) => console.error(err));
-
-app.use("/", indexRouter);
-app.use("/users", usersRouter);
-
+app.use("/", require("./routes/index"));
+app.use("/users", require("./routes/users"));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

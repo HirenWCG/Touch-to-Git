@@ -1,0 +1,20 @@
+{
+    "mongoDB":{
+        "host":"localhost",
+        "port":27017,
+        "user":"test",
+        "pwd":"test",
+        "db":"API"
+    },
+    "JWT":{
+        "secret":"erhvfmyoaswlbhrfmasuypolncasteif"
+    },
+    "default":{
+        "user":{
+            "name": "Admin",
+            "email": "admin@admin.com",
+            "mobile": "1234567890",
+            "password": "123456"
+          }
+    }
+}

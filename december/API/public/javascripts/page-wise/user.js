@@ -163,7 +163,9 @@ const userEventHandler = function () {
           contentType: false,
           processData: false,
         }).done(function (data) {
+          // console.log("file data with", data);
           if (data.type == "success") {
+            $(".fileId").attr("fileId", data.fileId);
             for (let index = 0; index < data.firstRow.length; index++) {
               $("#tbody").append(
                 "<tr class='table-info'> <td><input type='checkbox' name='upload' value=" +
@@ -185,18 +187,17 @@ const userEventHandler = function () {
 
   this.getMapData = function () {
     $("#upload").click(function () {
+      let fileId = $(".fileId").attr("fileid");
       let fieldMap = {};
       $("input:checked").each(function () {
         let checkboxval = $(this).val();
-        console.log("Checkbox val" + checkboxval);
         let dbField = $(`#${checkboxval}-dropdown option:selected`).val();
-        console.log("Database Name Field" + dbField);
         fieldMap[dbField] = checkboxval;
       });
       console.log("obj ", fieldMap);
       $.ajax({
-        url: "/api/import",
-        method: "post",
+        url: "/api/mapping/" + fileId,
+        method: "put",
         data: fieldMap,
         success: function (data) {
           console.log(data);
@@ -208,3 +209,13 @@ const userEventHandler = function () {
   this.init();
   let _this = this;
 };
+
+/**
+ * POST - /api/import - File upload
+ * PUT - /api/import/file/:fileId
+ * {
+    name: 'fullname',
+    email: 'clientemail',
+    mobile: 'clientmobile'
+  }
+ */

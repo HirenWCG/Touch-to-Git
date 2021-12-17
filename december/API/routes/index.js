@@ -211,7 +211,16 @@ router.post(
         counter = 0;
         const csvFilePath = req.file.destination + "/" + req.file.filename;
         const jsonArray = await csvtojson().fromFile(csvFilePath);
-        console.log(jsonArray);
+        // console.log(req.file.destination);
+
+        // fs.readFile(
+        //   "./public/importFile/newexportsData.csv",
+        //   "utf8",
+        //   (err, data) => {
+        //     console.log(data);
+        //   }
+        // );
+
         if (jsonArray) {
           let firstRow = Object.keys(jsonArray[0]);
           let secondRow = Object.values(jsonArray[0]);
@@ -227,9 +236,6 @@ router.post(
             message: "No data found in CSV",
           });
         }
-      } else if (req.body) {
-        // console.log(req.body);
-        // console.log(jsonArray);
       } else {
         res.send({
           type: "error",
@@ -245,4 +251,92 @@ router.post(
   }
 );
 
+router.put("/api/mapping/:fileId", async (req, res) => {
+  try {
+    // console.log("body", req.body);
+    // console.log("params", req.params.fileId);
+    let file = await filesModel.findOne({ _id: req.params.fileId });
+    if (file) {
+      // console.log(file);
+      const csvFilePath = "./public/importFile/" + file.name;
+      const jsonArray = await csvtojson().fromFile(csvFilePath);
+      if (jsonArray) {
+        let totalRecords = 0;
+        let duplicates = 0;
+        let discarded = 0;
+        let totalUploaded = 0;
+        let mappedArray = [];
+        let csvDublicates = {};
+        let valuesOfObject = Object.values(req.body);
+        let keysOfObject = Object.keys(req.body);
+        for (let data = 0; data < jsonArray.length; data++) {
+          totalRecords++;
+          for (let key = 0; key < valuesOfObject.length; key++) {
+            let jsonObj = jsonArray[data];
+            let mapObj = valuesOfObject[key];
+            let keyOfMapObject = keysOfObject[key];
+            req.body[keyOfMapObject] = jsonObj[mapObj];
+          }
+          if (csvDublicates[req.body.email] || csvDublicates[req.body.mobile]) {
+            console.log("aela malo ek data...");
+            duplicates++;
+          } else {
+            let mobile = req.body.email;
+            let email = req.body.mobile;
+            csvDublicates[mobile] = 1;
+            csvDublicates[email] = 1;
+          }
+          console.log("csvDuplicatesssssssssssssssssssss", duplicates);
+          let duplicateUser = await userAuthModel.findOne({
+            $or: [{ email: req.body.email }, { mobile: req.body.mobile }],
+          });
+
+          var emailRegExp = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+          if (duplicateUser) {
+            duplicates++;
+          } else if (
+            emailRegExp.test(req.body.name) == true ||
+            req.body.name == undefined ||
+            req.body.name == ""
+          ) {
+            console.log("Name is Invalid");
+            discarded++;
+          } else if (emailRegExp.test(req.body.email) == false) {
+            console.log("Email is Invalid");
+            discarded++;
+          } else if (
+            req.body.mobile.length < 10 ||
+            req.body.mobile.length > 10
+          ) {
+            console.log("Mobile must be 10 digits only.");
+            discarded++;
+          } else {
+            mappedArray.push(req.body);
+            totalUploaded++;
+          }
+        }
+        await userAuthModel.insertMany(mappedArray);
+      } else {
+        res.json({
+          status: "error",
+          code: 404,
+          message: "File not convert CSV to JSON",
+        });
+      }
+    } else {
+      res.json({
+        status: "error",
+        code: 404,
+        message: "File not in Database",
+      });
+    }
+  } catch (error) {
+    return res.json({
+      status: "error",
+      code: 404,
+      message: "Something went wrong",
+    });
+  }
+});
 module.exports = router;

@@ -4,23 +4,43 @@
   <form id="formid" method="POST">
     <div class="name" id="nameid">
       <label for="name">Name</label>
-      <input type="text" id="name" name="name" placeholder="Enter Your Name.." />
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Enter Your Name.."
+      />
     </div>
     <br />
 
     <div class="email" id="emailid">
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Enter Your Email.." />
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Enter Your Email.."
+      />
     </div><br />
 
     <div class="mobile" id="mobileid">
       <label for="mobile">Mobile</label>
-      <input type="number" name="mobile" id="mobile" placeholder="Enter Your Mobile.." />
+      <input
+        type="number"
+        name="mobile"
+        id="mobile"
+        placeholder="Enter Your Mobile.."
+      />
     </div><br />
 
     <div class="password" id="passwordid">
       <label for="password">Password</label>
-      <input type="password" name="password" id="password" placeholder="Enter Your Password.." />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Enter Your Password.."
+      />
     </div><br />
 
     <input type="submit" value="Add User" />
@@ -28,56 +48,93 @@
 </div><br />
 <button id="logout" type="button">Logout</button>
 
-
 <!-- Button trigger modal -->
 
-
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title fileId" id="exampleModalLabel">Data</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
-       <table id="tableid">
-              <tr>
-                <th>Select</th>
-                <th>First Row</th>
-                <th>Second Row</th>
-                <th>Fields</th>
-              </tr>
-              <tbody id="tbody">
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Recipient's username"
+            aria-label="Recipient's username"
+            aria-describedby="basic-addon2"
+            id="newField"
+          />
+          <button class="btn btn-primary" id="addNewField">Add New Feild into
+            Database</button>
+        </div>
+        <table id="tableid">
+          <tr>
+            <th>Select</th>
+            <th>First Row</th>
+            <th>Second Row</th>
+            <th>Fields</th>
+          </tr>
+          <tbody id="tbody">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="upload">Upload</button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >Close</button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="upload"
+        >Upload</button>
       </div>
     </div>
   </div>
 </div>
 
-
 <br /><br />
 <hr /><br /><br />
 <h1>User List...</h1>
+<div id="allCounter">
+
+</div>
 
 <table id="tableid">
   <button class="btn-success csv" id="csv">Export</button><br /><br />
   {{! import csv }}
   <form method="POST" enctype="multipart/form-data" id="formcsv">
     <input type="file" id="importFile" name="importFile" />
-    <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Import
-</button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      Import
+    </button>
   </form>
   <br /><br />
   <tr>
@@ -85,16 +142,16 @@
     <th>Email</th>
     <th>Mobile</th>
   </tr>
-  {{#each user}}
-  <tr>
-    <td>{{name}}</td>
-    <td>{{email}}</td>
-    <td>{{mobile}}</td>
-  </tr>
-  {{/each}}
+  <tbody id="secondBody">
+    {{#each user}}
+      <tr>
+        <td>{{name}}</td>
+        <td>{{email}}</td>
+        <td>{{mobile}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
 </table>
 <script>
-  $(document).ready(function(){
-    new userEventHandler();
-  });
+  $(document).ready(function(){ new userEventHandler(); });
 </script>

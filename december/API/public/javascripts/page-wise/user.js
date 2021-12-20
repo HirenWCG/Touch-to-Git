@@ -6,8 +6,10 @@ const userEventHandler = function () {
     this.userLogout();
     this.uploadCSV();
     this.getMapData();
+    this.addNewField();
   };
 
+  // user registration AJAX call
   this.userForm = function () {
     // validation for add user
     $("#formid").validate({
@@ -29,6 +31,8 @@ const userEventHandler = function () {
           minlength: "Password must be at least 6 characters long",
         },
       },
+
+      // errorPlacement Section
       errorPlacement: function (error, element) {
         if (element.attr("id") == "nameid") {
           error.insertAfter(".name");
@@ -42,6 +46,8 @@ const userEventHandler = function () {
           error.insertAfter(element);
         }
       },
+
+      // submitHandler Section
       submitHandler: function (form, event) {
         event.preventDefault();
         const formData = {
@@ -50,7 +56,7 @@ const userEventHandler = function () {
           mobile: $("#mobile").val(),
           password: $("#password").val(),
         };
-        console.log("formData...", formData);
+
         // ajax call
         $.ajax({
           type: "POST",
@@ -63,6 +69,7 @@ const userEventHandler = function () {
     });
   };
 
+  // userLogin AJAX call
   this.userLogin = function () {
     //validation for login form
     $("#loginForm").validate({
@@ -74,6 +81,8 @@ const userEventHandler = function () {
         name: "Name/Email/Mobile is required",
         password: "Password is required",
       },
+
+      // errorPlacement Section
       errorPlacement: function (error, element) {
         if (element.attr("id") == "nameid") {
           error.insertAfter(".name");
@@ -83,6 +92,8 @@ const userEventHandler = function () {
           error.insertAfter(element);
         }
       },
+
+      // submitHandler Section
       submitHandler: function (form, event) {
         event.preventDefault();
         const formData = {
@@ -90,13 +101,14 @@ const userEventHandler = function () {
           password: $("#password").val(),
         };
         console.log("formData...", formData);
-        // ajax call
+
+        // AJAX call
         $.ajax({
           type: "POST",
           url: "/api/login",
           data: formData,
         }).done(function (data) {
-          console.log("data is : ", data);
+          // Received response from Server
           if (data.status == 200) {
             $(location).attr("href", "/userList");
           } else {
@@ -107,13 +119,14 @@ const userEventHandler = function () {
     });
   };
 
+  // userLogout AJAX call
   this.userLogout = function () {
     $("#logout").click(function () {
       $.ajax({
         type: "GET",
         url: "/api/logout",
       }).done(function (data) {
-        console.log("data is : ", data);
+        // Received response from Server
         if (data.status == "success") {
           $(location).attr("href", "/loginUser");
         } else {
@@ -123,6 +136,7 @@ const userEventHandler = function () {
     });
   };
 
+  // exportCSV AJAX call
   this.exportCSV = function () {
     // csv export
     $(document)
@@ -131,13 +145,14 @@ const userEventHandler = function () {
         var exportData = {
           exportId: $(this).attr("id"),
         };
-        console.log(exportData);
+
+        // AJAX call
         $.ajax({
           url: "/api/userList",
           method: "GET",
           data: exportData,
         }).done(function (data) {
-          console.log("data issssssssss", data);
+          // Received response from Server
           var link = $("<a />");
           link.attr("download", data.file);
           let url = "http://127.0.0.1:4000/exports/" + data.file;
@@ -149,13 +164,15 @@ const userEventHandler = function () {
       });
   };
 
+  // uploadCSV AJAX call
   this.uploadCSV = function () {
     $("#formcsv").validate({
       submitHandler: function (form, event) {
         event.preventDefault();
         let formData = new FormData();
         formData.append("importFile", $("#importFile")[0].files[0]);
-        // ajax call
+
+        // AJAX call
         $.ajax({
           type: "POST",
           url: "/api/import",
@@ -163,10 +180,12 @@ const userEventHandler = function () {
           contentType: false,
           processData: false,
         }).done(function (data) {
-          // console.log("file data with", data);
+          // Received response from Server
           if (data.type == "success") {
             $(".fileId").attr("fileId", data.fileId);
+            // Read firstRow from data which one received from server side
             for (let index = 0; index < data.firstRow.length; index++) {
+              // apped data on tbody
               $("#tbody").append(
                 "<tr class='table-info'> <td><input type='checkbox' name='upload' value=" +
                   data.firstRow[index] +
@@ -185,6 +204,7 @@ const userEventHandler = function () {
     });
   };
 
+  // getMapData AJAX call, using this AJAX call, set all data in UI.
   this.getMapData = function () {
     $("#upload").click(function () {
       let fileId = $(".fileId").attr("fileid");
@@ -194,28 +214,44 @@ const userEventHandler = function () {
         let dbField = $(`#${checkboxval}-dropdown option:selected`).val();
         fieldMap[dbField] = checkboxval;
       });
-      console.log("obj ", fieldMap);
+
+      // AJAX call
       $.ajax({
         url: "/api/mapping/" + fileId,
         method: "put",
         data: fieldMap,
         success: function (data) {
-          console.log(data);
+          // Received response from server
+          for (let users of data.newAddedData) {
+            let html = ` 
+            <tr>
+            <td>${users.name}</td>
+            <td>${users.email}</td>
+            <td>${users.mobile}</td>
+            </tr>`;
+
+            // Data append on HTML page
+            $("#secondBody").append(html);
+          }
+          let allCounter = `
+          <p>totalRecords is : ${data.allCounter.totalRecords}</p>
+          <p>duplicates is : ${data.allCounter.duplicates}</p>
+          <p>discarded is :${data.allCounter.discarded}</p>
+          <p>totalUploaded is : ${data.allCounter.totalUploaded}</p>
+          `;
+          // Data append on HTML page
+          $("#allCounter").append(allCounter);
         },
       });
+    });
+  };
+
+  this.addNewField = function () {
+    $("#addNewField").click(function () {
+      console.log("11111111");
     });
   };
 
   this.init();
   let _this = this;
 };
-
-/**
- * POST - /api/import - File upload
- * PUT - /api/import/file/:fileId
- * {
-    name: 'fullname',
-    email: 'clientemail',
-    mobile: 'clientmobile'
-  }
- */

@@ -171,6 +171,10 @@ const userEventHandler = function () {
         event.preventDefault();
         let formData = new FormData();
         formData.append("importFile", $("#importFile")[0].files[0]);
+        let headerOrNot = $('input[name="headerOrNot"]:checked').val();
+        if (headerOrNot) {
+          formData["header"] = true;
+        }
 
         // AJAX call
         $.ajax({
@@ -248,7 +252,31 @@ const userEventHandler = function () {
 
   this.addNewField = function () {
     $("#addNewField").click(function () {
-      console.log("11111111");
+      $.ajax({
+        url: "/api/addNewField/" + $("#newField").val(),
+        method: "GET",
+        success: function (data) {
+          // Received response from server
+          if (data.type == "success") {
+            // Read firstRow from data which one received from server side
+            $("#tbody").empty();
+            for (let field of data.allFields) {
+              // apped data on tbody
+              $("#tbody").append(
+                "<tr class='table-info'> <td><input type='checkbox' name='upload' value=" +
+                  data.firstRow[index] +
+                  " class='form-check-input' ></td> <td>" +
+                  data.firstRow[index] +
+                  "</td> <td>" +
+                  data.secondRow[index] +
+                  "</td> <td>  <select class='form-select'id=" +
+                  data.firstRow[index] +
+                  "-dropdown > <option value='' disabled >Select Value</option> <option value='name'>Name</option> <option value='email'>Email</option> <option value='mobile'>Mobile</option> </select></td></tr>"
+              );
+            }
+          }
+        },
+      });
     });
   };
 

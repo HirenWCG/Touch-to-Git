@@ -10,6 +10,7 @@ const csvtojson = require("csvtojson");
 //require userAuth Model
 const userAuthModel = require("../models/userModel");
 const filesModel = require("../models/filesModel");
+const feildModel = require("../models/fieldsModel");
 
 // multer data store function
 const storage = multer.diskStorage({
@@ -231,6 +232,8 @@ router.post(
   async (req, res) => {
     try {
       if (req.file) {
+        console.log("req.file", req.file);
+        let headerObj = {};
         let filesData = {
           name: req.file.filename,
           uploadedBy: req.user.userId,
@@ -239,7 +242,10 @@ router.post(
         counter = 0;
         const csvFilePath = req.file.destination + "/" + req.file.filename;
         // convert csv to JSON
-        const jsonArray = await csvtojson().fromFile(csvFilePath);
+        if (req.file.header == true) {
+          headerObj = { noheader: true };
+        }
+        const jsonArray = await csvtojson(headerObj).fromFile(csvFilePath);
 
         if (jsonArray) {
           // Read key and Values from mapped Object
@@ -398,6 +404,35 @@ router.put("/api/mapping/:fileId", async (req, res) => {
     }
   } catch (error) {
     // Send Error response
+    return res.send({
+      status: "error",
+      code: 404,
+      message: "Something went wrong",
+    });
+  }
+});
+
+/**
+ *
+ */
+router.get("/api/addNewField/:field", async (req, res) => {
+  try {
+    let newField = await feildModel.create({ fields: req.params.field });
+    if (newField) {
+      res.send({
+        status: "success",
+        code: 200,
+        message: "Field added",
+        allFields: await feildModel.find().lean(),
+      });
+    } else {
+      res.send({
+        status: "error",
+        code: 500,
+        message: "Field not in Database",
+      });
+    }
+  } catch (error) {
     return res.send({
       status: "error",
       code: 404,

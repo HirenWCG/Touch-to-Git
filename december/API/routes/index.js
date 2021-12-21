@@ -224,6 +224,22 @@ router.get("/api/logout", async (req, res) => {
   }
 });
 
+// Promise function for read file from directory
+let readFile = function (filePath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, "utf8", function (err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        dataArray = result.toString().split(/\r?\n/);
+        resolve({
+          firstRow: dataArray[0].split(","),
+          secondRow: dataArray[1].split(","),
+        });
+      }
+    });
+  });
+};
 // Import API, import csv file and convert it into JSON formate
 router.post(
   "/api/import",
@@ -232,40 +248,23 @@ router.post(
   async (req, res) => {
     try {
       if (req.file) {
-        console.log("req.file", req.file);
-        let headerObj = {};
         let filesData = {
           name: req.file.filename,
           uploadedBy: req.user.userId,
         };
+        console.log("aaaaaaaaaaaaaa", req.body);
         let file = await filesModel.create(filesData);
         counter = 0;
-        const csvFilePath = req.file.destination + "/" + req.file.filename;
-        // convert csv to JSON
-        if (req.file.header == true) {
-          headerObj = { noheader: true };
-        }
-        const jsonArray = await csvtojson(headerObj).fromFile(csvFilePath);
 
-        if (jsonArray) {
-          // Read key and Values from mapped Object
-          let firstRow = Object.keys(jsonArray[0]);
-          let secondRow = Object.values(jsonArray[0]);
+        let data = await readFile("./public/importFile/" + req.file.filename);
 
-          // Send Success response
-          res.send({
-            type: "success",
-            firstRow,
-            secondRow,
-            fileId: file._id,
-          });
-        } else {
-          // Send Error Response
-          res.send({
-            type: "error",
-            message: "No data found in CSV",
-          });
-        }
+        res.send({
+          type: "success",
+          firstRow: data.firstRow,
+          secondRow: data.secondRow,
+          fileId: file._id,
+          allFields: await feildModel.find().lean(),
+        });
       } else {
         // Send Error Response
         res.send({
@@ -284,8 +283,13 @@ router.post(
 );
 
 // Mapping API, map two Object and store clean data into Database
-router.put("/api/mapping/:fileId", async (req, res) => {
+router.put("/api/mapping/:fileId/:header", async (req, res) => {
   try {
+    // console.log(req.params.header);
+    let headerObj = {};
+    if (req.params.header == "true") {
+      headerObj = { noheader: true };
+    }
     await filesModel.updateOne(
       { _id: req.params.fileId },
       { $set: { fieldMappingObject: req.body, status: "inprogress" } }
@@ -294,7 +298,7 @@ router.put("/api/mapping/:fileId", async (req, res) => {
     if (file) {
       const csvFilePath = "./public/importFile/" + file.name;
       // csv to JSON data
-      const jsonArray = await csvtojson().fromFile(csvFilePath);
+      const jsonArray = await csvtojson(headerObj).fromFile(csvFilePath);
       if (jsonArray) {
         let totalRecords = 0;
         let duplicates = 0;
@@ -412,10 +416,8 @@ router.put("/api/mapping/:fileId", async (req, res) => {
   }
 });
 
-/**
- *
- */
-router.get("/api/addNewField/:field", async (req, res) => {
+// add new field API
+router.get("/api/fieldAdd/:field", async (req, res) => {
   try {
     let newField = await feildModel.create({ fields: req.params.field });
     if (newField) {
@@ -423,7 +425,7 @@ router.get("/api/addNewField/:field", async (req, res) => {
         status: "success",
         code: 200,
         message: "Field added",
-        allFields: await feildModel.find().lean(),
+        field: req.params.field,
       });
     } else {
       res.send({

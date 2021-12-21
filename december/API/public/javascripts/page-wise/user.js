@@ -171,11 +171,6 @@ const userEventHandler = function () {
         event.preventDefault();
         let formData = new FormData();
         formData.append("importFile", $("#importFile")[0].files[0]);
-        let headerOrNot = $('input[name="headerOrNot"]:checked').val();
-        if (headerOrNot) {
-          formData["header"] = true;
-        }
-
         // AJAX call
         $.ajax({
           type: "POST",
@@ -184,24 +179,56 @@ const userEventHandler = function () {
           contentType: false,
           processData: false,
         }).done(function (data) {
+          console.log("data", data);
           // Received response from Server
           if (data.type == "success") {
             $(".fileId").attr("fileId", data.fileId);
             // Read firstRow from data which one received from server side
             for (let index = 0; index < data.firstRow.length; index++) {
+              console.log(data.secondRow);
               // apped data on tbody
               $("#tbody").append(
-                "<tr class='table-info'> <td><input type='checkbox' name='upload' value=" +
-                  data.firstRow[index] +
-                  " class='form-check-input' ></td> <td>" +
-                  data.firstRow[index] +
-                  "</td> <td>" +
-                  data.secondRow[index] +
-                  "</td> <td>  <select class='form-select'id=" +
-                  data.firstRow[index] +
-                  "-dropdown > <option value='' disabled >Select Value</option> <option value='name'>Name</option> <option value='email'>Email</option> <option value='mobile'>Mobile</option> </select></td></tr>"
+                `<tr class='table-info'> 
+                    <td><input type='checkbox' name='upload' field='field${
+                      index + 1
+                    }' value=${
+                  data.firstRow[index]
+                } class='form-check-input'></td> 
+                    <td>${data.firstRow[index]}</td> 
+                    <td>${data.secondRow[index]}</td> 
+                    <td>  
+                      <select class='form-select newField' id='field${
+                        index + 1
+                      }'> 
+                          <option value='' disabled >Select Value</option> 
+                          <option value='name'>Name</option> 
+                          <option value='email'>Email</option> 
+                          <option value='mobile'>Mobile</option> 
+                          <option value='addField'>Add Field</option> 
+                      </select>
+                    </td>
+                </tr>`
               );
             }
+            // add field
+            $(".newField").change(function () {
+              if ($(this).val() == "addField") {
+                var userName = window.prompt("Add New Field", "Text");
+                $.ajax({
+                  url: "/api/fieldAdd/" + userName,
+                  type: "GET",
+                }).done(function (res) {
+                  console.log("dataaaa", res);
+                  console.log(res.field);
+                  if (data.type == "success") {
+                    $(".newField").append(
+                      `<option value='${res.field}'>${res.field}</option>`
+                    );
+                    $(this).val(res.field).prop("selected", true);
+                  }
+                });
+              }
+            });
           }
         });
       },
@@ -213,15 +240,26 @@ const userEventHandler = function () {
     $("#upload").click(function () {
       let fileId = $(".fileId").attr("fileid");
       let fieldMap = {};
-      $("input:checked").each(function () {
-        let checkboxval = $(this).val();
-        let dbField = $(`#${checkboxval}-dropdown option:selected`).val();
-        fieldMap[dbField] = checkboxval;
-      });
 
+      let noHeader = $('input[name="headerOrNot"]:checked').val();
+      if (noHeader == "true") {
+        $("input[name='upload']:checked").each(function () {
+          let field = $(this).attr("field");
+          let dbField = $(`#${field} option:selected`).val();
+          fieldMap[dbField] = field;
+        });
+      } else {
+        $("input:checked").each(function () {
+          let checkboxval = $(this).val();
+          let field = $(this).attr("field");
+          let dbField = $(`#${field} option:selected`).val();
+          fieldMap[dbField] = checkboxval;
+        });
+      }
+      console.log(fieldMap);
       // AJAX call
       $.ajax({
-        url: "/api/mapping/" + fileId,
+        url: "/api/mapping/" + fileId + "/" + noHeader,
         method: "put",
         data: fieldMap,
         success: function (data) {
@@ -253,28 +291,14 @@ const userEventHandler = function () {
   this.addNewField = function () {
     $("#addNewField").click(function () {
       $.ajax({
-        url: "/api/addNewField/" + $("#newField").val(),
-        method: "GET",
+        url: "/api/import" + $("#newField").val(),
+        method: "POST",
         success: function (data) {
           // Received response from server
-          if (data.type == "success") {
-            // Read firstRow from data which one received from server side
-            $("#tbody").empty();
-            for (let field of data.allFields) {
-              // apped data on tbody
-              $("#tbody").append(
-                "<tr class='table-info'> <td><input type='checkbox' name='upload' value=" +
-                  data.firstRow[index] +
-                  " class='form-check-input' ></td> <td>" +
-                  data.firstRow[index] +
-                  "</td> <td>" +
-                  data.secondRow[index] +
-                  "</td> <td>  <select class='form-select'id=" +
-                  data.firstRow[index] +
-                  "-dropdown > <option value='' disabled >Select Value</option> <option value='name'>Name</option> <option value='email'>Email</option> <option value='mobile'>Mobile</option> </select></td></tr>"
-              );
-            }
-          }
+          // console.log(data);
+          // if (data.type == "success") {
+          // Read firstRow from data which one received from server side
+          // }
         },
       });
     });

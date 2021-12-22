@@ -16,6 +16,8 @@ global.config = require("./config/config.json");
 
 //global functions
 require("./helpers/global-functions");
+require("./helpers/file-process");
+require("./cron");
 
 var app = express();
 

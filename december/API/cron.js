@@ -1,3 +1,4 @@
 const cron = require("node-cron");
-
-cron.schedule("*/10 * * * * *", function () {});
+cron.schedule("*/15 * * * * *", async function () {
+  fileProcess();
+});

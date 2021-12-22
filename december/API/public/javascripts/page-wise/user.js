@@ -6,7 +6,6 @@ const userEventHandler = function () {
     this.userLogout();
     this.uploadCSV();
     this.getMapData();
-    this.addNewField();
   };
 
   // user registration AJAX call
@@ -293,22 +292,6 @@ const userEventHandler = function () {
           `;
           // Data append on HTML page
           $("#allCounter").append(allCounter);
-        },
-      });
-    });
-  };
-
-  this.addNewField = function () {
-    $("#addNewField").click(function () {
-      $.ajax({
-        url: "/api/import" + $("#newField").val(),
-        method: "POST",
-        success: function (data) {
-          // Received response from server
-          // console.log(data);
-          // if (data.type == "success") {
-          // Read firstRow from data which one received from server side
-          // }
         },
       });
     });

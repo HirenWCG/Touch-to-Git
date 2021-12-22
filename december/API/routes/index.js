@@ -285,6 +285,7 @@ router.post(
 // Mapping API, map two Object and store clean data into Database
 router.put("/api/mapping/:fileId/:header", async (req, res) => {
   try {
+    console.log(req.body);
     // console.log(req.params.header);
     let headerObj = {};
     if (req.params.header == "true") {
@@ -292,7 +293,7 @@ router.put("/api/mapping/:fileId/:header", async (req, res) => {
     }
     await filesModel.updateOne(
       { _id: req.params.fileId },
-      { $set: { fieldMappingObject: req.body, status: "inprogress" } }
+      { $set: { fieldMappingObject: req.body, noHeader: req.params.header } }
     );
     let file = await filesModel.findOne({ _id: req.params.fileId });
     if (file) {
@@ -339,27 +340,13 @@ router.put("/api/mapping/:fileId/:header", async (req, res) => {
 
             if (duplicateUser) {
               duplicates++;
-            } else if (
-              emailRegExp.test(req.body.name) == true ||
-              req.body.name == undefined ||
-              req.body.name == ""
-            ) {
-              discarded++;
-            } else if (emailRegExp.test(req.body.email) == false) {
-              discarded++;
-            } else if (
-              req.body.mobile.length < 10 ||
-              req.body.mobile.length > 10
-            ) {
-              discarded++;
             } else {
               // Final Object
-              let finalObj = {
-                name: req.body.name,
-                email: req.body.email,
-                mobile: req.body.mobile,
-                password: "je saro lage e rakhi lyo",
-              };
+              let valuesOfObj = Object.values(req.body);
+              let finalObj = {};
+              for (let map = 0; map < keysOfObject.length; map++) {
+                finalObj[keysOfObject[map]] = valuesOfObj[map];
+              }
               mappedArray.push(finalObj);
               totalUploaded++;
             }
@@ -380,6 +367,7 @@ router.put("/api/mapping/:fileId/:header", async (req, res) => {
             },
           }
         );
+        console.log(mappedArray);
         // insert all clean data into database
         await userAuthModel.insertMany(mappedArray);
 

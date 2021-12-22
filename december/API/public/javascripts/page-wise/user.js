@@ -182,7 +182,16 @@ const userEventHandler = function () {
           console.log("data", data);
           // Received response from Server
           if (data.type == "success") {
+            // Collect all field from database and convert into drop-down list
+            let fieldHTML = "";
+            for (let field of data.allFields) {
+              fieldHTML += `<option value='${field.fields}'>${field.fields}</option>`;
+            }
+            fieldHTML += `<option value='addField'>Add Field</option>`;
+
+            // set file name into popup box
             $(".fileId").attr("fileId", data.fileId);
+
             // Read firstRow from data which one received from server side
             for (let index = 0; index < data.firstRow.length; index++) {
               console.log(data.secondRow);
@@ -199,34 +208,34 @@ const userEventHandler = function () {
                     <td>  
                       <select class='form-select newField' id='field${
                         index + 1
-                      }'> 
-                          <option value='' disabled >Select Value</option> 
-                          <option value='name'>Name</option> 
-                          <option value='email'>Email</option> 
-                          <option value='mobile'>Mobile</option> 
-                          <option value='addField'>Add Field</option> 
+                      }'>  
                       </select>
                     </td>
                 </tr>`
               );
             }
+            $(".newField").prepend(fieldHTML);
+
             // add field
-            $(".newField").change(function () {
+            $(".newField").click(function () {
+              console.log("1111111");
               if ($(this).val() == "addField") {
                 var userName = window.prompt("Add New Field", "Text");
-                $.ajax({
-                  url: "/api/fieldAdd/" + userName,
-                  type: "GET",
-                }).done(function (res) {
-                  console.log("dataaaa", res);
-                  console.log(res.field);
-                  if (data.type == "success") {
-                    $(".newField").append(
-                      `<option value='${res.field}'>${res.field}</option>`
-                    );
-                    $(this).val(res.field).prop("selected", true);
-                  }
-                });
+                if (userName != null) {
+                  $.ajax({
+                    url: "/api/fieldAdd/" + userName,
+                    type: "GET",
+                  }).done(function (res) {
+                    console.log("dataaaa", res);
+                    console.log(res.field);
+                    if (data.type == "success") {
+                      $(".newField").prepend(
+                        `<option value='${res.field}'>${res.field}</option>`
+                      );
+                      $(this).val(res.field).prop("selected", true);
+                    }
+                  });
+                }
               }
             });
           }
@@ -250,6 +259,7 @@ const userEventHandler = function () {
         });
       } else {
         $("input:checked").each(function () {
+          noHeader = "false";
           let checkboxval = $(this).val();
           let field = $(this).attr("field");
           let dbField = $(`#${field} option:selected`).val();

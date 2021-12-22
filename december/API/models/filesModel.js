@@ -28,6 +28,10 @@ const tableSchema = new mongoose.Schema(
     uploadedBy: {
       type: String,
     },
+    noHeader: {
+      type: String,
+      default: "false",
+    },
     status: {
       type: String,
       enum: ["pending", "inprogress", "success"],

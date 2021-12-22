@@ -17,8 +17,8 @@ const tableSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
-  { strict: false }
+    strict: false,
+  }
 );
 
 module.exports = mongoose.model("users", tableSchema);

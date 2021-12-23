@@ -6,6 +6,16 @@ const userEventHandler = function () {
     this.userLogout();
     this.uploadCSV();
     this.getMapData();
+
+    _this.socket = io({ transports: ["websocket"] });
+    _this.socketEvents();
+  };
+
+  this.socketEvents = function () {
+    _this.socket.on("chat message", function (data) {
+      toastr.warning(data);
+      toastr.options.closeDuration = 40;
+    });
   };
 
   // user registration AJAX call
@@ -182,7 +192,7 @@ const userEventHandler = function () {
           // Received response from Server
           if (data.type == "success") {
             // Collect all field from database and convert into drop-down list
-            let fieldHTML = "";
+            let fieldHTML = "<option value=''>Select Value</option>";
             for (let field of data.allFields) {
               fieldHTML += `<option value='${field.fields}'>${field.fields}</option>`;
             }
@@ -205,7 +215,7 @@ const userEventHandler = function () {
                     <td>${data.firstRow[index]}</td> 
                     <td>${data.secondRow[index]}</td> 
                     <td>  
-                      <select class='form-select newField' id='field${
+                      <select class='form-select newField' name='' id='field${
                         index + 1
                       }'>  
                       </select>
@@ -216,8 +226,24 @@ const userEventHandler = function () {
             $(".newField").prepend(fieldHTML);
 
             // add field
+            let objValidation = {};
             $(".newField").click(function () {
-              console.log("1111111");
+              console.log(objValidation);
+              if (objValidation.hasOwnProperty($(this).val())) {
+                alert("already selected...");
+                let prev = $(this).attr("name");
+                $(this).val(prev).attr("selected", true);
+              } else {
+                let prev = $(this).attr("name");
+                $(this).attr("name", $(this).val());
+                if ($(this).val() == "") {
+                  delete objValidation[prev];
+                } else {
+                  delete objValidation[prev];
+                  objValidation[$(this).val()] = 1;
+                }
+              }
+
               if ($(this).val() == "addField") {
                 var userName = window.prompt("Add New Field", "Text");
                 if (userName != null) {
@@ -297,6 +323,6 @@ const userEventHandler = function () {
     });
   };
 
-  this.init();
   let _this = this;
+  this.init();
 };

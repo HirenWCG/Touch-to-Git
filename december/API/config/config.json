@@ -1,20 +1,35 @@
 {
-    "mongoDB":{
-        "host":"localhost",
-        "port":27017,
-        "user":"test",
-        "pwd":"test",
-        "db":"API"
-    },
-    "JWT":{
-        "secret":"erhvfmyoaswlbhrfmasuypolncasteif"
-    },
-    "default":{
-        "user":{
-            "name": "Admin",
-            "email": "admin@admin.com",
-            "mobile": "1234567890",
-            "password": "123456"
-          }
+  "mongoDB": {
+    "host": "localhost",
+    "port": 27017,
+    "user": "test",
+    "pwd": "test",
+    "db": "API"
+  },
+  "JWT": {
+    "secret": "erhvfmyoaswlbhrfmasuypolncasteif"
+  },
+  "default": {
+    "user": {
+      "name": "Admin",
+      "email": "admin@admin.com",
+      "mobile": "1234567890",
+      "password": "123456"
     }
+  },
+  "scheduler": {
+    "isActive": false,
+    "files": {
+      "fileProcess": {
+        "time": "*/5 * * * * *",
+        "name": "Process files",
+        "active": true
+      },
+      "sendAllMail": {
+        "time": "*/2 * * * * *",
+        "name": "Process Mail",
+        "active": true
+      }
+    }
+  }
 }

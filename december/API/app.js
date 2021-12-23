@@ -18,9 +18,8 @@ global.config = require("./config/config.json");
 require("./helpers/global-functions");
 require("./helpers/file-process");
 require("./cron");
-
-var app = express();
-
+require("./helpers/send-mail-process");
+const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.engine(
   "handlebars",

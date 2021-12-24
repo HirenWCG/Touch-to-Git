@@ -18,10 +18,10 @@
     }
   },
   "scheduler": {
-    "isActive": false,
+    "isActive": true,
     "files": {
       "fileProcess": {
-        "time": "*/30 * * * * *",
+        "time": "*/5 * * * * *",
         "name": "Process files",
         "file": "file-process.js",
         "active": true

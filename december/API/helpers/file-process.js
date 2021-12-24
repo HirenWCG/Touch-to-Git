@@ -5,10 +5,22 @@ const filesModel = require("../models/filesModel");
 
 module.exports = function (time) {
   cron.schedule(time, async function () {
-    let allFiles = await filesModel.find().limit(5).lean();
-    for (let file of allFiles) {
-      if (file) {
-        if (file.status != "success") {
+    var entryControl = true;
+    if (entryControl) {
+      entryControl = false;
+      let allFiles = await filesModel
+        .find({ status: "pending" })
+        .limit(50)
+        .lean();
+      for (let file of allFiles) {
+        console.log(
+          "fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        );
+        if (file) {
+          await filesModel.updateOne(
+            { _id: file._id },
+            { $set: { status: "inprogress" } }
+          );
           socket.emit("inprogress", "status inprogress");
           const csvFilePath = "./public/importFile/" + file.name;
           let headerObj = {};
@@ -72,37 +84,39 @@ module.exports = function (time) {
             }
 
             // update file records like totalUploads, duplicates and other
-            await filesModel.updateOne(
-              { _id: file._id },
-              {
-                $set: {
-                  totalRecords: totalRecords,
-                  duplicates: duplicates,
-                  discarded: discarded,
-                  totalUploaded: totalUploaded,
-                  status: "success",
-                },
-              }
-            );
-            // insert all clean data into database
-            await userAuthModel.insertMany(mappedArray);
-            socket.emit("success", {
-              msg: "file executed successfully...",
-              file: file.name,
-            });
+            setTimeout(async function () {
+              await filesModel.updateOne(
+                { _id: file._id },
+                {
+                  $set: {
+                    totalRecords: totalRecords,
+                    duplicates: duplicates,
+                    discarded: discarded,
+                    totalUploaded: totalUploaded,
+                    status: "success",
+                  },
+                }
+              );
+              // insert all clean data into database
+              await userAuthModel.insertMany(mappedArray);
+              socket.emit("success", {
+                msg: "file executed successfully...",
+                file: file.name,
+              });
 
-            // send success respose
-            console.log({
-              status: "success",
-              code: 200,
-              allCounter: {
-                totalRecords,
-                duplicates,
-                discarded,
-                totalUploaded,
-              },
-              newAddedData: mappedArray,
-            });
+              // send success respose
+              console.log({
+                status: "success",
+                code: 200,
+                allCounter: {
+                  totalRecords,
+                  duplicates,
+                  discarded,
+                  totalUploaded,
+                },
+                newAddedData: mappedArray,
+              });
+            }, 12000);
           } else {
             // Send Error response
             console.log({
@@ -114,19 +128,19 @@ module.exports = function (time) {
         } else {
           // Send Error response
           console.log({
-            status: "success",
-            code: 200,
-            message: "This File already Executed Successfully...",
+            status: "error",
+            code: 404,
+            message: "File not in Database",
           });
         }
-      } else {
-        // Send Error response
-        console.log({
-          status: "error",
-          code: 404,
-          message: "File not in Database",
-        });
       }
+      entryControl = true;
+    } else {
+      console.log({
+        status: "error",
+        code: 404,
+        message: "already other file in processing mode...",
+      });
     }
   });
 };

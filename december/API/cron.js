@@ -1,14 +1,13 @@
-const cron = require("node-cron");
+//global configurations
+global.config = require("./config/config.json");
+const fs = require("fs");
 
 if (config.scheduler.isActive) {
-  cron.schedule(config.scheduler.files.fileProcess.time, async function () {
-    console.log("cron");
-    fileProcess();
-  });
-
-  cron.schedule(config.scheduler.files.sendAllMail.time, async function () {
-    console.log("mail send");
-  });
+  for (let inx in config.scheduler.files) {
+    require("./helpers/" + config.scheduler.files[inx].file)(
+      config.scheduler.files[inx].time
+    );
+  }
 } else {
   console.log("cron is off...");
 }

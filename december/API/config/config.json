@@ -21,13 +21,15 @@
     "isActive": false,
     "files": {
       "fileProcess": {
-        "time": "*/5 * * * * *",
+        "time": "*/30 * * * * *",
         "name": "Process files",
+        "file": "file-process.js",
         "active": true
       },
       "sendAllMail": {
         "time": "*/2 * * * * *",
         "name": "Process Mail",
+        "file": "send-mail-process.js",
         "active": true
       }
     }

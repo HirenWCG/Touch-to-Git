@@ -16,9 +16,9 @@ global.config = require("./config/config.json");
 
 //global functions
 require("./helpers/global-functions");
-require("./helpers/file-process");
 require("./cron");
-require("./helpers/send-mail-process");
+// require("./helpers/file-process");
+// require("./helpers/send-mail-process");
 const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.engine(

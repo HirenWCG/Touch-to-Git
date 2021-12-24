@@ -12,9 +12,15 @@ const userEventHandler = function () {
   };
 
   this.socketEvents = function () {
-    _this.socket.on("chat message", function (data) {
-      toastr.warning(data);
-      toastr.options.closeDuration = 40;
+    _this.socket.on("inprogress", function (data) {
+      toastr.options.progressBar = true;
+      toastr.info(data);
+    });
+
+    _this.socket.on("success", function (data) {
+      $("#allCounter").append(`<div class="alert alert-success" role="alert">
+      ${data.file} ${data.msg}
+    </div>`);
     });
   };
 
